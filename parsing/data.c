@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   data.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tburtin <tburtin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: transfo <transfo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 10:55:53 by tburtin           #+#    #+#             */
-/*   Updated: 2024/03/01 15:13:36 by tburtin          ###   ########.fr       */
+/*   Updated: 2024/03/04 21:43:55 by transfo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void allocation_tab(t_len len, t_data *new)
 {
-	new->outfile =  ft_calloc(sizeof(char **), len.compteur1 + len.compteur1 + 1);
+	new->outfile =  ft_calloc(sizeof(char **), len.compteur1 + len.compteur2 + 1);
 	new->outfile_append = ft_calloc(sizeof(char **), len.compteur1 + 1);;
 	new->infile = ft_calloc(sizeof(char **), len.compteur3 + 1);
 
