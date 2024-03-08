@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_parse.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tburtin <tburtin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: transfo <transfo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 19:11:10 by tburtin           #+#    #+#             */
-/*   Updated: 2024/03/01 15:14:13 by tburtin          ###   ########.fr       */
+/*   Updated: 2024/03/06 18:51:38 by transfo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,8 @@ t_data *algo_outfile(t_token *current, t_data *new)
 	return(new);
 }
 
-t_data *algo_infile(t_token *current, t_data *new, int position, char *last_outfile)
+
+t_data *algo_infile(t_data *new, int position, char *last_outfile)
 {
 	if(position == 0)
 		new->infile[0] = ft_strdup("stdin");
@@ -45,6 +46,7 @@ t_data *algo_infile(t_token *current, t_data *new, int position, char *last_outf
 	return(new);
 }
 
+
 char *find_last_outfile(char **tab)
 {
 	int i = 0;
@@ -54,20 +56,14 @@ char *find_last_outfile(char **tab)
 	return (ft_strdup(tab[i]));
 }
 
+
 int remplir_data(int i, t_programme *programme, char **tab, int compteur)
 {
-	int j = 0;
-
 	i = i + 1;
-	tab[compteur] = (char *)malloc(sizeof(char) * (ft_strlen(programme->split_args[i]) + 1));
-	while(programme->split_args[i][j])
-	{
-		tab[compteur][j] = programme->split_args[i][j];
-		j++;
-	}
-	tab[compteur][j] = '\0';
+	tab[compteur] = ft_strdup(programme->split_args[i]);
 	return (compteur + 1);
 }
+
 
 t_data *algo_redirection(int i, t_token *current, t_programme *programme, t_data *new)
 {
@@ -95,6 +91,7 @@ t_data *algo_redirection(int i, t_token *current, t_programme *programme, t_data
 	return (new);
 }
 
+
 int compare(char *str, char *strr)
 {
 	int i = 0;
@@ -110,6 +107,7 @@ int compare(char *str, char *strr)
 	return(1);
 }
 
+
 void add_back_fronts(t_data **liste_data, t_data *new)
 {
     t_data *current;
@@ -124,7 +122,6 @@ void add_back_fronts(t_data **liste_data, t_data *new)
         current = *liste_data;
         while (current->next != NULL)
         	current = current->next;
-        
         current->next = new;
         new->prev = current;
     }

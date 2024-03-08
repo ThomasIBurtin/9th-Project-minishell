@@ -3,25 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tburtin <tburtin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: transfo <transfo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 11:18:00 by transfo           #+#    #+#             */
-/*   Updated: 2024/03/01 15:15:24 by tburtin          ###   ########.fr       */
+/*   Updated: 2024/03/06 18:50:55 by transfo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-
 int check_quotes(char *str)
 {
-    int i;
-    int flag_1;
-    int flag_2;
+    int i = 0;
+    int flag_1 = 0;
+    int flag_2 = 0;
 
-    i = 0;
-    flag_1 = 0;
-    flag_2 = 0;
     while(str[i])
     {
         if(str[i] == 34)
@@ -37,6 +33,7 @@ int check_quotes(char *str)
     }
     return(1);   
 }
+
 
 char *add_space_redirection(char *str)
 {
@@ -85,11 +82,11 @@ char *add_space_redirection(char *str)
     return result;
 }
 
+
 void get_tokens(t_token **liste_token, char **args)
 {
-	int i;
+	int i = 0;
 	t_token *new;
-	i = 0;
 
 	while(args[i] != NULL)
 	{
@@ -99,6 +96,7 @@ void get_tokens(t_token **liste_token, char **args)
 		i++;
 	}
 }
+
 
 int add_data(t_programme *programme)
 {
@@ -126,13 +124,12 @@ int parse(t_programme *programme)
 {
     if(check_quotes(programme->args) == 0)
         return(0);
-
     programme->args = add_space_redirection(programme->args);
     programme->split_args = (char *const *)ft_split(programme->args, ' ');
     get_tokens(programme->liste_token, (char **)programme->split_args);
-    
     if (add_data(programme) == 0)
         return(0);
+        
     
     t_data *temp = *programme->liste_data;
     int i = 0;
@@ -182,6 +179,5 @@ int parse(t_programme *programme)
         printf("\n");
         temp = temp->next;
     }
-    
     return(1);
 }

@@ -6,7 +6,7 @@
 /*   By: transfo <transfo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 12:16:39 by tburtin           #+#    #+#             */
-/*   Updated: 2024/02/28 11:43:06 by transfo          ###   ########.fr       */
+/*   Updated: 2024/03/06 18:55:14 by transfo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ t_type get_type_arg(t_token *token, char *str)
 		return (argument);
 }
 
+
 void add_back_front(t_token **liste_token, t_token *new)
 {
     t_token *current;
@@ -48,12 +49,11 @@ void add_back_front(t_token **liste_token, t_token *new)
     }
 }
 
+
 t_token		*ft_newtoken(char *str)
 {
-	t_token	*new;
 	int i = 0;
-
-	new = (t_token *)malloc(sizeof(t_token));
+	t_token	*new = (t_token *)malloc(sizeof(t_token));
 	
 	while(str[i])
 	{

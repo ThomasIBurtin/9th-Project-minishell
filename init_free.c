@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_free.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tburtin <tburtin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: transfo <transfo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 09:40:23 by transfo           #+#    #+#             */
-/*   Updated: 2024/03/01 15:02:51 by tburtin          ###   ########.fr       */
+/*   Updated: 2024/03/06 18:56:13 by transfo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,6 @@
 void init_data(t_programme *programme)
 {
     programme->args = readline("\nprompt > ");
-    while(ft_strlen(programme->args) == 0)
-    {
-        programme->args = readline("\nprompt > ");
-    }
     printf("\n");
     programme->split_args = NULL;
     programme->liste_token = (t_token **)malloc(sizeof(t_token*));
@@ -43,6 +39,7 @@ void free_t_data(t_data *data)
     }
 }
 
+
 void free_t_token(t_token *token)
 {
     t_token *temp;
@@ -53,6 +50,7 @@ void free_t_token(t_token *token)
         free(temp);
     }
 }
+
 
 void free_programme(t_programme *programme)
 {

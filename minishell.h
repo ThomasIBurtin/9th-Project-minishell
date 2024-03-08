@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tburtin <tburtin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: transfo <transfo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 19:31:57 by transfo           #+#    #+#             */
-/*   Updated: 2024/03/01 15:25:16 by tburtin          ###   ########.fr       */
+/*   Updated: 2024/03/06 18:51:50 by transfo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ int add_data(t_programme *programme);
     t_data *ft_newcmd(t_programme *programme, int i);
     void add_back_fronts(t_data **liste_data, t_data *new);
     t_data *algo_outfile(t_token *current, t_data *new);
-    t_data *algo_infile(t_token *current, t_data *new, int position, char *last_outfile);
+    t_data *algo_infile(t_data *new, int position, char *last_outfile);
     char *find_last_outfile(char **tab);
     t_data *algo_redirection(int i, t_token *current, t_programme *programme, t_data *new);
     int compare(char *str, char *strr);
