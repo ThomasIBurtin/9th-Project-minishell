@@ -6,7 +6,7 @@
 /*   By: transfo <transfo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 10:55:53 by tburtin           #+#    #+#             */
-/*   Updated: 2024/03/08 11:47:07 by transfo          ###   ########.fr       */
+/*   Updated: 2024/03/08 12:35:14 by transfo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void allocation_tab(t_len len, t_data *new)
 }
 
 
-int check_redirection(t_token *current, t_programme *programme, t_len *len)
+int check_redirection(t_token *current, t_len *len)
 {
 	int flag = 0;
 	
@@ -52,7 +52,7 @@ int check_redirection(t_token *current, t_programme *programme, t_len *len)
 				flag = 1;
 			len->compteur_here_doc++;
 		}
-		else if(current->type == input)
+		else if(current->type == infile)
 		{
 			if(current->next == NULL || current->next->type != argument)
 				flag = 1;
@@ -72,7 +72,7 @@ t_data *parse_redirection(t_token *current, t_programme *programme, t_data *new)
 	int flag2 = 0;
 	t_len len;
 
-	if(check_redirection(current, programme, &len) == 1)
+	if(check_redirection(current, &len) == 1)
 	{
 		perror("no file after redirection ");
 		free_tab(new->cmd_arg);
@@ -96,7 +96,7 @@ t_data *parse_redirection(t_token *current, t_programme *programme, t_data *new)
 	if(flag2 == 1)
 		new = algo_infile(new, position, last_outfile);
 		
-	new = algo_redirection(current, programme, new, &len);
+	new = algo_redirection(current, new, &len);
 	last_outfile = find_last_outfile(new->outfile);
 	position++;
 

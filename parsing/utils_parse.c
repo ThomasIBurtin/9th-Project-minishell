@@ -6,7 +6,7 @@
 /*   By: transfo <transfo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 19:11:10 by tburtin           #+#    #+#             */
-/*   Updated: 2024/03/08 11:52:13 by transfo          ###   ########.fr       */
+/*   Updated: 2024/03/08 12:34:52 by transfo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ int remplir_data(char *str, char **tab, int compteur)
 }
 
 
-t_data *algo_redirection(t_token *current, t_programme *programme, t_data *new, t_len *len)
+t_data *algo_redirection(t_token *current, t_data *new, t_len *len)
 {
 
 	init_compteurs(len);
@@ -86,7 +86,7 @@ t_data *algo_redirection(t_token *current, t_programme *programme, t_data *new, 
 			len->compteur_here_doc = remplir_data(current->next->str, new->here_doc, len->compteur_here_doc);
 			len->compteur_infile = remplir_data(current->next->str, new->infile, len->compteur_infile);
 		}
-		else if(current->type == input)
+		else if(current->type == infile)
 			len->compteur_infile = remplir_data(current->next->str, new->infile, len->compteur_infile);
 		current = current->next;
 	}
