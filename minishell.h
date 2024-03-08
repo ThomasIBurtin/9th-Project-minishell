@@ -6,7 +6,7 @@
 /*   By: transfo <transfo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 19:31:57 by transfo           #+#    #+#             */
-/*   Updated: 2024/03/08 11:51:38 by transfo          ###   ########.fr       */
+/*   Updated: 2024/03/08 12:22:50 by transfo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,16 +95,20 @@ int add_data(t_programme *programme);
     void add_back_front(t_token **liste_token, t_token *new);
 
     // data
-    void init_compteurs(t_len *len);
-    int remplir_data(char *str, char **tab, int compteur);
-    t_data *parse_redirection(t_token *current, t_programme *programme, t_data *new);
     t_data *ft_newcmd(t_programme *programme, t_token *current);
-    void add_back_fronts(t_data **liste_data, t_data *new);
-    t_data *algo_outfile(t_token *current, t_data *new);
-    t_data *algo_infile(t_data *new, int position, char *last_outfile);
-    char *find_last_outfile(char **tab);
-    t_data *algo_redirection(t_token *current, t_programme *programme, t_data *new, t_len *len);
-    int compare(char *str, char *strr);
+    t_data *parse_redirection(t_token *current, t_programme *programme, t_data *new);
+    int check_redirection(t_token *current, t_programme *programme, t_len *len);
+    void allocation_tab(t_len len, t_data *new);
+    
+        // utils_data
+        t_data *algo_outfile(t_token *current, t_data *new);
+        t_data *algo_infile(t_data *new, int position, char *last_outfile);
+        char *find_last_outfile(char **tab);
+        int remplir_data(char *str, char **tab, int compteur);
+        t_data *algo_redirection(t_token *current, t_programme *programme, t_data *new, t_len *len);
+        void init_compteurs(t_len *len);
+        void add_back_fronts(t_data **liste_data, t_data *new);
+        int compare(char *str, char *strr);
 
 // execution
 int redirection(char *file, int i);
