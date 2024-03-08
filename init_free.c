@@ -6,7 +6,7 @@
 /*   By: transfo <transfo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 09:40:23 by transfo           #+#    #+#             */
-/*   Updated: 2024/03/06 18:56:13 by transfo          ###   ########.fr       */
+/*   Updated: 2024/03/08 10:34:00 by transfo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ void free_t_data(t_data *data)
         free_tab(temp->outfile);
         free_tab(temp->outfile_append);
         free_tab(temp->infile);
+        free_tab(temp->here_doc);
         free(temp);
     }
 }

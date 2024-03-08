@@ -6,7 +6,6 @@ SRC = main.c \
 	  parsing/token.c \
 	  parsing/data.c \
 	  parsing/utils_parse.c \
-	  execution/redirection.c \
       execution/exec.c
 OBJ = $(SRC:.c=.o)
 LIBFT_OBJ = 1st-Project-Libft/*.o 

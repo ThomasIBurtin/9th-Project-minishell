@@ -6,7 +6,7 @@
 /*   By: transfo <transfo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 12:16:39 by tburtin           #+#    #+#             */
-/*   Updated: 2024/03/06 18:55:14 by transfo          ###   ########.fr       */
+/*   Updated: 2024/03/08 10:40:11 by transfo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,12 @@
 
 t_type get_type_arg(t_token *token, char *str)
 {
-	if (str[0] == '>' && str[1] == '\0')
-		return (trunc);
-	else if (str[0] == '>' && str[1] == '>' && str[2] == '\0')
+	if (str[0] == '>' && str[1] == '>' && str[2] == '\0')
 		return (append);
+	else if (str[0] == '>' && str[1] == '\0')
+		return (trunc);
+	else if (str[0] == '<' && str[1] == '<' && str[2] == '\0')
+		return (here_doc);
 	else if (str[0] == '<' && str[1] == '\0')
 		return (input);
 	else if (str[0] == '|' && str[1] == '\0')

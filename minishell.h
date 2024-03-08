@@ -6,7 +6,7 @@
 /*   By: transfo <transfo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 19:31:57 by transfo           #+#    #+#             */
-/*   Updated: 2024/03/06 18:51:50 by transfo          ###   ########.fr       */
+/*   Updated: 2024/03/08 11:51:38 by transfo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,10 @@
 
 typedef struct s_len
 {
-    int compteur1;
-    int compteur2;
-    int compteur3;
+    int compteur_outfile;
+    int compteur_outfile_append;
+    int compteur_infile;
+    int compteur_here_doc;
 }                   t_len;
 
 
@@ -39,6 +40,7 @@ typedef enum s_type
     append,
     input,
     pip,
+    here_doc,
 }           t_type;
 
 
@@ -48,6 +50,7 @@ typedef struct s_data
     char **outfile;
     char **outfile_append;
     char **infile;
+    char **here_doc;
 
     struct s_data *prev;
     struct s_data *next; 
@@ -92,19 +95,21 @@ int add_data(t_programme *programme);
     void add_back_front(t_token **liste_token, t_token *new);
 
     // data
-    int remplir_data(int i, t_programme *programme, char **tab, int compteur);
-    t_data *parse_redirection(int i, t_token *current, t_programme *programme, t_data *new);
-    t_data *ft_newcmd(t_programme *programme, int i);
+    void init_compteurs(t_len *len);
+    int remplir_data(char *str, char **tab, int compteur);
+    t_data *parse_redirection(t_token *current, t_programme *programme, t_data *new);
+    t_data *ft_newcmd(t_programme *programme, t_token *current);
     void add_back_fronts(t_data **liste_data, t_data *new);
     t_data *algo_outfile(t_token *current, t_data *new);
     t_data *algo_infile(t_data *new, int position, char *last_outfile);
     char *find_last_outfile(char **tab);
-    t_data *algo_redirection(int i, t_token *current, t_programme *programme, t_data *new);
+    t_data *algo_redirection(t_token *current, t_programme *programme, t_data *new, t_len *len);
     int compare(char *str, char *strr);
 
 // execution
 int redirection(char *file, int i);
 char *find_path(char *const *envp, char *const cmd);
 void exec(char *const * av, char *const *envp);
+void test(t_programme *programme);
 
 #endif

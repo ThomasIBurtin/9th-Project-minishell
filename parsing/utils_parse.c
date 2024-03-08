@@ -6,7 +6,7 @@
 /*   By: transfo <transfo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 19:11:10 by tburtin           #+#    #+#             */
-/*   Updated: 2024/03/06 18:51:38 by transfo          ###   ########.fr       */
+/*   Updated: 2024/03/08 11:52:13 by transfo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,36 +57,38 @@ char *find_last_outfile(char **tab)
 }
 
 
-int remplir_data(int i, t_programme *programme, char **tab, int compteur)
+int remplir_data(char *str, char **tab, int compteur)
 {
-	i = i + 1;
-	tab[compteur] = ft_strdup(programme->split_args[i]);
+	tab[compteur] = ft_strdup(str);
 	return (compteur + 1);
 }
 
 
-t_data *algo_redirection(int i, t_token *current, t_programme *programme, t_data *new)
+t_data *algo_redirection(t_token *current, t_programme *programme, t_data *new, t_len *len)
 {
-	int compteur1 = 0;
-	int compteur2 = 0;
-	int compteur3 = 0;
+
+	init_compteurs(len);
 
 	if((new->infile[0] != NULL) && (new->infile[0][0] >= 'a' && new->infile[0][0] <= 'z'))
-		compteur3++;
+		len->compteur_infile++;
 
 	while(current != NULL && current->type != pip)
 	{	
-		if(programme->split_args[i][0] == '>' && programme->split_args[i][1] == '>')
+		if(current->type == append)
 		{
-			compteur1 = remplir_data(i, programme, new->outfile_append, compteur1);
-			compteur2 = remplir_data(i, programme, new->outfile, compteur2);
+			len->compteur_outfile_append = remplir_data(current->next->str, new->outfile_append, len->compteur_outfile_append);
+			len->compteur_outfile = remplir_data(current->next->str, new->outfile, len->compteur_outfile);
 		}
-		else if(programme->split_args[i][0] == '>')
-			compteur2 = remplir_data(i, programme, new->outfile, compteur2);
-		else if(programme->split_args[i][0] == '<')
-			compteur3 = remplir_data(i, programme, new->infile, compteur3);
+		else if(current->type == trunc)
+			len->compteur_outfile = remplir_data(current->next->str, new->outfile, len->compteur_outfile);
+		else if(current->type == here_doc)
+		{
+			len->compteur_here_doc = remplir_data(current->next->str, new->here_doc, len->compteur_here_doc);
+			len->compteur_infile = remplir_data(current->next->str, new->infile, len->compteur_infile);
+		}
+		else if(current->type == input)
+			len->compteur_infile = remplir_data(current->next->str, new->infile, len->compteur_infile);
 		current = current->next;
-		i++;
 	}
 	return (new);
 }
@@ -125,4 +127,12 @@ void add_back_fronts(t_data **liste_data, t_data *new)
         current->next = new;
         new->prev = current;
     }
+}
+
+void init_compteurs(t_len *len)
+{
+	len->compteur_outfile_append = 0;
+	len->compteur_outfile = 0;
+	len->compteur_here_doc = 0;
+	len->compteur_infile = 0;
 }

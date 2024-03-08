@@ -6,7 +6,7 @@
 /*   By: transfo <transfo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 10:55:53 by tburtin           #+#    #+#             */
-/*   Updated: 2024/03/06 18:53:52 by transfo          ###   ########.fr       */
+/*   Updated: 2024/03/08 11:47:07 by transfo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,51 +14,57 @@
 
 void allocation_tab(t_len len, t_data *new)
 {
-	new->outfile =  ft_calloc(sizeof(char **), len.compteur1 + len.compteur2 + 1);
-	new->outfile_append = ft_calloc(sizeof(char **), len.compteur1 + 1);;
-	new->infile = ft_calloc(sizeof(char **), len.compteur3 + 1);
+	new->outfile =  ft_calloc(sizeof(char **), len.compteur_outfile_append + len.compteur_outfile + 1);
+	new->outfile_append = ft_calloc(sizeof(char **), len.compteur_outfile_append + 1);;
+	new->infile = ft_calloc(sizeof(char **), len.compteur_here_doc + len.compteur_infile + 1);
+	new->here_doc = ft_calloc(sizeof(char **), len.compteur_here_doc + 1);
+	
 
-	new->outfile[len.compteur1 + len.compteur2] = NULL;
-	new->outfile_append[len.compteur1] = NULL;
-	new->infile[len.compteur3] = NULL;
+	new->outfile[len.compteur_outfile_append + len.compteur_outfile] = NULL;
+	new->outfile_append[len.compteur_outfile_append] = NULL;
+	new->infile[len.compteur_here_doc + len.compteur_infile] = NULL;
+	new->here_doc[len.compteur_here_doc] = NULL;
 }
 
 
-int check_redirection(t_token *current, t_programme *programme, int i, t_len *len)
+int check_redirection(t_token *current, t_programme *programme, t_len *len)
 {
 	int flag = 0;
-	len->compteur1 = 0;
-	len->compteur2 = 0;
-	len->compteur3 = 0;
 	
+	init_compteurs(len);
 	while(current != NULL && current->type != pip)
 	{
-		if(programme->split_args[i][0] == '>' && programme->split_args[i][1] == '>')
+		if(current->type == append)
 		{
 			if(current->next == NULL || current->next->type != argument)
 				flag = 1;
-			len->compteur1++;
+			len->compteur_outfile_append++;
 		}
-		else if(programme->split_args[i][0] == '>')
+		else if(current->type == trunc)
 		{
 			if(current->next == NULL || current->next->type != argument)
 				flag = 1;
-			len->compteur2++;
+			len->compteur_outfile++;
 		}
-		else if(programme->split_args[i][0] == '<')
+		else if(current->type == here_doc)
 		{
 			if(current->next == NULL || current->next->type != argument)
 				flag = 1;
-			len->compteur3++;
+			len->compteur_here_doc++;
 		}
-		i++;
+		else if(current->type == input)
+		{
+			if(current->next == NULL || current->next->type != argument)
+				flag = 1;
+			len->compteur_infile++;
+		}
 		current = current->next;
 	}
 	return(flag);
 }
 
 
-t_data *parse_redirection(int i, t_token *current, t_programme *programme, t_data *new)
+t_data *parse_redirection(t_token *current, t_programme *programme, t_data *new)
 {
 	int static position = 0;
 	char static  *last_outfile = NULL;
@@ -66,7 +72,7 @@ t_data *parse_redirection(int i, t_token *current, t_programme *programme, t_dat
 	int flag2 = 0;
 	t_len len;
 
-	if(check_redirection(current, programme, i, &len) == 1)
+	if(check_redirection(current, programme, &len) == 1)
 	{
 		perror("no file after redirection ");
 		free_tab(new->cmd_arg);
@@ -74,26 +80,23 @@ t_data *parse_redirection(int i, t_token *current, t_programme *programme, t_dat
 		position = 0;
 		return(0);
 	}
-	
-	if(len.compteur1 == 0 && len.compteur2 == 0)
+	if(len.compteur_outfile_append == 0 && len.compteur_outfile == 0)
 	{
 		flag1 = 1;
-		len.compteur2++;
+		len.compteur_outfile++;
 	}
-	if((position == 0 && len.compteur3 == 0) || (position != 0))
+	if((position == 0 && len.compteur_infile == 0) || (position != 0))
 	{
 		flag2 = 1;
-		len.compteur3++;
+		len.compteur_infile++;
 	}
-
 	allocation_tab(len, new);
-	
 	if(flag1 == 1)
 		new = algo_outfile(current, new);
 	if(flag2 == 1)
 		new = algo_infile(new, position, last_outfile);
-	
-	new = algo_redirection(i, current, programme, new);
+		
+	new = algo_redirection(current, programme, new, &len);
 	last_outfile = find_last_outfile(new->outfile);
 	position++;
 
@@ -112,12 +115,10 @@ t_data *parse_redirection(int i, t_token *current, t_programme *programme, t_dat
 }
 
 
-t_data *ft_newcmd(t_programme *programme, int i)
+t_data *ft_newcmd(t_programme *programme, t_token *current)
 {
 	t_data *new = (t_data *)malloc(sizeof(t_data));
-	t_token *current = *programme->liste_token;
-	t_token *current2 = *programme->liste_token;
-	int sav = i;
+	t_token *temp = current;
 	int k = 0;
 	int compteur = 0;
 
@@ -127,32 +128,26 @@ t_data *ft_newcmd(t_programme *programme, int i)
 		new->outfile = NULL;
 		new->outfile_append = NULL;
 		new->infile = NULL;
+		new->here_doc = NULL;
 		new->next = NULL;
+		new->prev = NULL;
 	}
 
-	while(sav > 0)
+	while(temp != NULL && (temp->type == commande || temp->type == argument))
 	{
-		current = current->next;
-		current2 = current2->next;
-		sav--;
-	}
-
-	while(current2 != NULL && (current2->type == commande || current2->type == argument))
-	{
-		current2 = current2->next;
+		temp = temp->next;
 		compteur++;
 	}
 	new->cmd_arg = (char **)malloc(sizeof(char *) * (compteur + 1));
 	
 	while(current != NULL && (current->type == commande || current->type == argument))
 	{
-		k = remplir_data(i-1, programme, new->cmd_arg, k);
+		k = remplir_data(current->str, new->cmd_arg, k);
 		current = current->next;
-		i++;
 	}
 	new->cmd_arg[k] = NULL;
 
-	new = parse_redirection(i, current, programme, new);
+	new = parse_redirection(current, programme, new);
 	if(new == 0)
 		return(0);
 	return (new);

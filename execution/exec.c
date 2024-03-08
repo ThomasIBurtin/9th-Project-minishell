@@ -3,14 +3,43 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tburtin <tburtin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: transfo <transfo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 19:31:27 by transfo           #+#    #+#             */
-/*   Updated: 2024/02/22 11:33:09 by tburtin          ###   ########.fr       */
+/*   Updated: 2024/03/08 11:53:52 by transfo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+int redirection(char *file, int i)
+{
+    int fd;
+    
+    if(i == 0)
+        fd = open(file, O_WRONLY | O_CREAT | O_APPEND, 0644);
+    else if(i == 1)
+        fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+    
+    if (fd < 0)
+	{
+        perror("open");
+        return EXIT_FAILURE;
+    }
+
+    int stdout_backup_fd = dup(STDOUT_FILENO);
+    if (stdout_backup_fd == -1)
+        perror("dup");
+
+    if (dup2(fd, STDOUT_FILENO) < 0)
+	{
+        perror("dup2");
+        close(fd);
+        return EXIT_FAILURE;
+    }
+    close(fd);
+    return (stdout_backup_fd);
+}
 
 
 char	*find_path(char *const *envp, char *const cmd)
@@ -91,4 +120,66 @@ void	exec(char *const * av, char *const *envp)
             close(stdout_backup_fd);
         }
 	}
+}
+
+void test(t_programme *programme)
+{
+	    t_data *temp = *programme->liste_data;
+    int i = 0;
+    int j = 0;
+    int k = 0;
+    int f = 0;
+    int m = 0;
+
+    while(temp != NULL)
+    {
+        i = 0;
+        j = 0;
+        k = 0;
+        f = 0;
+        m = 0;
+        printf("commande + arguments : ");
+        while(temp->cmd_arg[i] != NULL)
+        {
+            printf("%s", temp->cmd_arg[i]);
+            printf(" ");
+            i++;
+        }
+        printf("\n");
+        printf("outfile : ");
+        while(temp->outfile[j] != NULL)
+        {
+            printf("%s", temp->outfile[j]);
+            printf(" ");
+            j++;
+        }
+        printf("\n");
+        printf("outfile_append : ");
+        while(temp->outfile_append[k] != NULL)
+        {
+            printf("%s", temp->outfile_append[k]);
+            printf(" ");
+            k++;
+        }
+        printf("\n");
+        printf("infile : ");
+        while(temp->infile[f] != NULL)
+        {
+            printf("%s", temp->infile[f]);
+            printf(" ");
+            f++;
+        }
+        printf("\n");
+        printf("here_doc : ");
+        while(temp->here_doc[m] != NULL)
+        {
+            printf("%s", temp->here_doc[m]);
+            printf(" ");
+            m++;
+        }
+        printf("\n");
+        printf("\n");
+        printf("\n");
+        temp = temp->next;
+    }
 }

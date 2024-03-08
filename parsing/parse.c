@@ -6,7 +6,7 @@
 /*   By: transfo <transfo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 11:18:00 by transfo           #+#    #+#             */
-/*   Updated: 2024/03/06 18:50:55 by transfo          ###   ########.fr       */
+/*   Updated: 2024/03/08 11:42:08 by transfo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ int add_data(t_programme *programme)
     {
         if(current->type == commande)
         {
-            new = ft_newcmd(programme, i);
+            new = ft_newcmd(programme, current);
             if(new == 0)
                 return(0);
             add_back_fronts(programme->liste_data, new);
@@ -129,55 +129,6 @@ int parse(t_programme *programme)
     get_tokens(programme->liste_token, (char **)programme->split_args);
     if (add_data(programme) == 0)
         return(0);
-        
-    
-    t_data *temp = *programme->liste_data;
-    int i = 0;
-    int j = 0;
-    int k = 0;
-    int f = 0;
-
-    while(temp != NULL)
-    {
-        i = 0;
-        j = 0;
-        k = 0;
-        f = 0;
-        printf("commande + arguments : ");
-        while(temp->cmd_arg[i] != NULL)
-        {
-            printf("%s", temp->cmd_arg[i]);
-            printf(" ");
-            i++;
-        }
-        printf("\n");
-        printf("outfile : ");
-        while(temp->outfile[j] != NULL)
-        {
-            printf("%s", temp->outfile[j]);
-            printf(" ");
-            j++;
-        }
-        printf("\n");
-        printf("outfile_append : ");
-        while(temp->outfile_append[k] != NULL)
-        {
-            printf("%s", temp->outfile_append[k]);
-            printf(" ");
-            k++;
-        }
-        printf("\n");
-        printf("infile : ");
-        while(temp->infile[f] != NULL)
-        {
-            printf("%s", temp->infile[f]);
-            printf(" ");
-            f++;
-        }
-        printf("\n");
-        printf("\n");
-        printf("\n");
-        temp = temp->next;
-    }
+    test(programme);
     return(1);
 }
