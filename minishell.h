@@ -6,7 +6,7 @@
 /*   By: transfo <transfo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 19:31:57 by transfo           #+#    #+#             */
-/*   Updated: 2024/03/08 12:35:22 by transfo          ###   ########.fr       */
+/*   Updated: 2024/03/08 19:02:50 by transfo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,8 +95,8 @@ int add_data(t_programme *programme);
     void add_back_front(t_token **liste_token, t_token *new);
 
     // data
-    t_data *ft_newcmd(t_programme *programme, t_token *current);
-    t_data *parse_redirection(t_token *current, t_programme *programme, t_data *new);
+    t_data *ft_newcmd(t_token *current);
+    t_data *parse_redirection(t_token *current, t_data *new);
     int check_redirection(t_token *current, t_len *len);
     void allocation_tab(t_len len, t_data *new);
     

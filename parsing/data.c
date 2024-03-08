@@ -6,7 +6,7 @@
 /*   By: transfo <transfo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 10:55:53 by tburtin           #+#    #+#             */
-/*   Updated: 2024/03/08 12:35:14 by transfo          ###   ########.fr       */
+/*   Updated: 2024/03/08 19:02:19 by transfo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ int check_redirection(t_token *current, t_len *len)
 }
 
 
-t_data *parse_redirection(t_token *current, t_programme *programme, t_data *new)
+t_data *parse_redirection(t_token *current, t_data *new)
 {
 	int static position = 0;
 	char static  *last_outfile = NULL;
@@ -115,7 +115,7 @@ t_data *parse_redirection(t_token *current, t_programme *programme, t_data *new)
 }
 
 
-t_data *ft_newcmd(t_programme *programme, t_token *current)
+t_data *ft_newcmd(t_token *current)
 {
 	t_data *new = (t_data *)malloc(sizeof(t_data));
 	t_token *temp = current;
@@ -147,7 +147,7 @@ t_data *ft_newcmd(t_programme *programme, t_token *current)
 	}
 	new->cmd_arg[k] = NULL;
 
-	new = parse_redirection(current, programme, new);
+	new = parse_redirection(current, new);
 	if(new == 0)
 		return(0);
 	return (new);

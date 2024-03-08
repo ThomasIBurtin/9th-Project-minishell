@@ -6,7 +6,7 @@
 /*   By: transfo <transfo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 11:18:00 by transfo           #+#    #+#             */
-/*   Updated: 2024/03/08 11:42:08 by transfo          ###   ########.fr       */
+/*   Updated: 2024/03/08 19:03:01 by transfo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ int add_data(t_programme *programme)
     {
         if(current->type == commande)
         {
-            new = ft_newcmd(programme, current);
+            new = ft_newcmd(current);
             if(new == 0)
                 return(0);
             add_back_fronts(programme->liste_data, new);
