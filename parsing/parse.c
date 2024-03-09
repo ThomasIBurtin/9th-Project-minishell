@@ -6,7 +6,7 @@
 /*   By: transfo <transfo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 11:18:00 by transfo           #+#    #+#             */
-/*   Updated: 2024/03/08 19:03:01 by transfo          ###   ########.fr       */
+/*   Updated: 2024/03/09 10:39:26 by transfo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,15 +46,11 @@ char *add_space_redirection(char *str)
         if ((str[i] == '>' && str[i + 1] == '>') || (str[i] == '<' && str[i + 1] == '<')) 
         {
             count += 2;
-            i += 2;
+            i++;
         } 
         else if (str[i] == '<' || str[i] == '>')
-        {
             count += 2;
-            i++;
-        } 
-        else
-            i++;
+        i++;
     }
     char *result = malloc(sizeof(char) * (count + 1));
     i = 0;

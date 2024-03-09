@@ -6,7 +6,7 @@
 /*   By: transfo <transfo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 10:55:53 by tburtin           #+#    #+#             */
-/*   Updated: 2024/03/08 19:02:19 by transfo          ###   ########.fr       */
+/*   Updated: 2024/03/09 10:43:48 by transfo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ void allocation_tab(t_len len, t_data *new)
 	new->outfile_append = ft_calloc(sizeof(char **), len.compteur_outfile_append + 1);;
 	new->infile = ft_calloc(sizeof(char **), len.compteur_here_doc + len.compteur_infile + 1);
 	new->here_doc = ft_calloc(sizeof(char **), len.compteur_here_doc + 1);
-	
 
 	new->outfile[len.compteur_outfile_append + len.compteur_outfile] = NULL;
 	new->outfile_append[len.compteur_outfile_append] = NULL;
