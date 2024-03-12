@@ -6,7 +6,7 @@
 /*   By: transfo <transfo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 19:11:10 by tburtin           #+#    #+#             */
-/*   Updated: 2024/03/08 12:34:52 by transfo          ###   ########.fr       */
+/*   Updated: 2024/03/12 11:32:42 by transfo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,6 @@ int remplir_data(char *str, char **tab, int compteur)
 
 t_data *algo_redirection(t_token *current, t_data *new, t_len *len)
 {
-
 	init_compteurs(len);
 
 	if((new->infile[0] != NULL) && (new->infile[0][0] >= 'a' && new->infile[0][0] <= 'z'))
@@ -93,41 +92,6 @@ t_data *algo_redirection(t_token *current, t_data *new, t_len *len)
 	return (new);
 }
 
-
-int compare(char *str, char *strr)
-{
-	int i = 0;
-	
-	if(ft_strlen(str) != ft_strlen(strr))
-		return(0);
-	while(str[i] && strr[i])
-	{
-		if(str[i] != strr[i])
-			return(0);
-		i++;
-	}
-	return(1);
-}
-
-
-void add_back_fronts(t_data **liste_data, t_data *new)
-{
-    t_data *current;
-
-    if (*liste_data == NULL)
-	{
-    	*liste_data = new;
-		(*liste_data)->next = NULL;
-	}
-    else
-    {
-        current = *liste_data;
-        while (current->next != NULL)
-        	current = current->next;
-        current->next = new;
-        new->prev = current;
-    }
-}
 
 void init_compteurs(t_len *len)
 {

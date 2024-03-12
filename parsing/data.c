@@ -6,7 +6,7 @@
 /*   By: transfo <transfo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 10:55:53 by tburtin           #+#    #+#             */
-/*   Updated: 2024/03/09 10:43:48 by transfo          ###   ########.fr       */
+/*   Updated: 2024/03/12 11:30:48 by transfo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,4 +150,24 @@ t_data *ft_newcmd(t_token *current)
 	if(new == 0)
 		return(0);
 	return (new);
+}
+
+
+void add_back_fronts(t_data **liste_data, t_data *new)
+{
+    t_data *current;
+
+    if (*liste_data == NULL)
+	{
+    	*liste_data = new;
+		(*liste_data)->next = NULL;
+	}
+    else
+    {
+        current = *liste_data;
+        while (current->next != NULL)
+        	current = current->next;
+        current->next = new;
+        new->prev = current;
+    }
 }

@@ -6,7 +6,7 @@
 /*   By: transfo <transfo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 09:40:23 by transfo           #+#    #+#             */
-/*   Updated: 2024/03/08 10:34:00 by transfo          ###   ########.fr       */
+/*   Updated: 2024/03/12 11:33:09 by transfo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ void init_data(t_programme *programme)
 {
     programme->args = readline("\nprompt > ");
     printf("\n");
+    add_history(programme->args);
     programme->split_args = NULL;
     programme->liste_token = (t_token **)malloc(sizeof(t_token*));
     programme->liste_data = (t_data **)malloc(sizeof(t_data*));

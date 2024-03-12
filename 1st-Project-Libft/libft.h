@@ -6,7 +6,7 @@
 /*   By: transfo <transfo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/04 13:49:38 by tburtin           #+#    #+#             */
-/*   Updated: 2024/03/08 12:15:56 by transfo          ###   ########.fr       */
+/*   Updated: 2024/03/12 11:29:29 by transfo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,5 +44,6 @@ char	*ft_itoa(int n);
 char	**ft_split(char const *str, char c);
 char	*ft_strtrim(char const *s1, char const *set);
 void	*free_tab(char **tab);
+int     compare(char *str, char *strr);
 
 #endif

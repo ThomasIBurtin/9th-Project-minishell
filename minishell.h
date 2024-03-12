@@ -6,7 +6,7 @@
 /*   By: transfo <transfo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 19:31:57 by transfo           #+#    #+#             */
-/*   Updated: 2024/03/08 19:02:50 by transfo          ###   ########.fr       */
+/*   Updated: 2024/03/12 11:33:49 by transfo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,9 +111,6 @@ int add_data(t_programme *programme);
         int compare(char *str, char *strr);
 
 // execution
-int redirection(char *file, int i);
-char *find_path(char *const *envp, char *const cmd);
-void exec(char *const * av, char *const *envp);
 void test(t_programme *programme);
 
 #endif

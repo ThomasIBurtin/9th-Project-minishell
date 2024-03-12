@@ -19,6 +19,7 @@ SRC = ft_atoi.c \
       ft_putendl_fd.c \
       ft_itoa.c \
       ft_split.c \
+      ft_compare.c \
       ft_putnbr_fd.c
 
 OBJ = $(SRC:.c=.o)
