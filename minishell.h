@@ -6,7 +6,7 @@
 /*   By: transfo <transfo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 19:31:57 by transfo           #+#    #+#             */
-/*   Updated: 2024/03/13 17:06:27 by transfo          ###   ########.fr       */
+/*   Updated: 2024/03/13 17:49:47 by transfo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,26 +107,28 @@ int add_data(t_programme *programme);
     t_data *ft_newcmd(t_token *current);
     t_data *parse_redirection(t_token *current, t_data *new);
     int check_redirection(t_token *current, t_len *len);
-    void allocation_tab(t_len len, t_data *new);
     void add_back_fronts(t_data **liste_data, t_data *new);
+    t_data *algo_redirection(t_token *current, t_data *new, t_len *len);
     
         // utils_data
         t_data *algo_outfile(t_token *current, t_data *new);
         t_data *algo_infile(t_data *new, int position, char *last_outfile);
         char *find_last_outfile(char **tab);
         int remplir_data(char *str, char **tab, int compteur);
-        t_data *algo_redirection(t_token *current, t_data *new, t_len *len);
         void init_compteurs(t_len *len);
+        void allocation_tab(t_len len, t_data *new);
 
     // variable
-    t_variable *new_variable(char *str, int len_cle, int len_valeur);
     int variable(t_programme *programme);
     int algo_var(char **cmd_arg);
     void remplir_var(char **cmd_arg, t_programme *programme);
-    void add_back_frontss(t_variable **liste_variable, t_variable *new);
-    void replace_value(int index, t_variable *liste_variable, int len_valeur, char *str);
-    int check_if_exsite(char *str, t_variable *liste_variable, int len_cle);
     char **replace_commande(char **cmd_arg, int index);
+        
+        // utils_variable
+        void replace_value(int index, t_variable *liste_variable, int len_valeur, char *str);
+        int check_if_exsite(char *str, t_variable *liste_variable, int len_cle);
+        void add_back_frontss(t_variable **liste_variable, t_variable *new);
+        t_variable *new_variable(char *str, int len_cle, int len_valeur);
 
 // execution
 void test(t_programme *programme);

@@ -6,60 +6,49 @@
 /*   By: transfo <transfo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 10:55:53 by tburtin           #+#    #+#             */
-/*   Updated: 2024/03/12 11:30:48 by transfo          ###   ########.fr       */
+/*   Updated: 2024/03/13 17:48:52 by transfo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void allocation_tab(t_len len, t_data *new)
+
+t_data *ft_newcmd(t_token *current)
 {
-	new->outfile =  ft_calloc(sizeof(char **), len.compteur_outfile_append + len.compteur_outfile + 1);
-	new->outfile_append = ft_calloc(sizeof(char **), len.compteur_outfile_append + 1);;
-	new->infile = ft_calloc(sizeof(char **), len.compteur_here_doc + len.compteur_infile + 1);
-	new->here_doc = ft_calloc(sizeof(char **), len.compteur_here_doc + 1);
+	t_data *new = (t_data *)malloc(sizeof(t_data));
+	t_token *temp = current;
+	int k = 0;
+	int compteur = 0;
 
-	new->outfile[len.compteur_outfile_append + len.compteur_outfile] = NULL;
-	new->outfile_append[len.compteur_outfile_append] = NULL;
-	new->infile[len.compteur_here_doc + len.compteur_infile] = NULL;
-	new->here_doc[len.compteur_here_doc] = NULL;
-}
-
-
-int check_redirection(t_token *current, t_len *len)
-{
-	int flag = 0;
-	
-	init_compteurs(len);
-	while(current != NULL && current->type != pip)
+	if (new != NULL)
 	{
-		if(current->type == append)
-		{
-			if(current->next == NULL || current->next->type != argument)
-				flag = 1;
-			len->compteur_outfile_append++;
-		}
-		else if(current->type == trunc)
-		{
-			if(current->next == NULL || current->next->type != argument)
-				flag = 1;
-			len->compteur_outfile++;
-		}
-		else if(current->type == here_doc)
-		{
-			if(current->next == NULL || current->next->type != argument)
-				flag = 1;
-			len->compteur_here_doc++;
-		}
-		else if(current->type == infile)
-		{
-			if(current->next == NULL || current->next->type != argument)
-				flag = 1;
-			len->compteur_infile++;
-		}
+		new->cmd_arg = NULL;
+		new->outfile = NULL;
+		new->outfile_append = NULL;
+		new->infile = NULL;
+		new->here_doc = NULL;
+		new->next = NULL;
+		new->prev = NULL;
+	}
+
+	while(temp != NULL && (temp->type == commande || temp->type == argument))
+	{
+		temp = temp->next;
+		compteur++;
+	}
+	new->cmd_arg = (char **)malloc(sizeof(char *) * (compteur + 1));
+	
+	while(current != NULL && (current->type == commande || current->type == argument))
+	{
+		k = remplir_data(current->str, new->cmd_arg, k);
 		current = current->next;
 	}
-	return(flag);
+	new->cmd_arg[k] = NULL;
+
+	new = parse_redirection(current, new);
+	if(new == 0)
+		return(0);
+	return (new);
 }
 
 
@@ -114,41 +103,68 @@ t_data *parse_redirection(t_token *current, t_data *new)
 }
 
 
-t_data *ft_newcmd(t_token *current)
+int check_redirection(t_token *current, t_len *len)
 {
-	t_data *new = (t_data *)malloc(sizeof(t_data));
-	t_token *temp = current;
-	int k = 0;
-	int compteur = 0;
-
-	if (new != NULL)
-	{
-		new->cmd_arg = NULL;
-		new->outfile = NULL;
-		new->outfile_append = NULL;
-		new->infile = NULL;
-		new->here_doc = NULL;
-		new->next = NULL;
-		new->prev = NULL;
-	}
-
-	while(temp != NULL && (temp->type == commande || temp->type == argument))
-	{
-		temp = temp->next;
-		compteur++;
-	}
-	new->cmd_arg = (char **)malloc(sizeof(char *) * (compteur + 1));
+	int flag = 0;
 	
-	while(current != NULL && (current->type == commande || current->type == argument))
+	init_compteurs(len);
+	while(current != NULL && current->type != pip)
 	{
-		k = remplir_data(current->str, new->cmd_arg, k);
+		if(current->type == append)
+		{
+			if(current->next == NULL || current->next->type != argument)
+				flag = 1;
+			len->compteur_outfile_append++;
+		}
+		else if(current->type == trunc)
+		{
+			if(current->next == NULL || current->next->type != argument)
+				flag = 1;
+			len->compteur_outfile++;
+		}
+		else if(current->type == here_doc)
+		{
+			if(current->next == NULL || current->next->type != argument)
+				flag = 1;
+			len->compteur_here_doc++;
+		}
+		else if(current->type == infile)
+		{
+			if(current->next == NULL || current->next->type != argument)
+				flag = 1;
+			len->compteur_infile++;
+		}
 		current = current->next;
 	}
-	new->cmd_arg[k] = NULL;
+	return(flag);
+}
 
-	new = parse_redirection(current, new);
-	if(new == 0)
-		return(0);
+
+t_data *algo_redirection(t_token *current, t_data *new, t_len *len)
+{
+	init_compteurs(len);
+
+	if((new->infile[0] != NULL) && (new->infile[0][0] >= 'a' && new->infile[0][0] <= 'z'))
+		len->compteur_infile++;
+
+	while(current != NULL && current->type != pip)
+	{	
+		if(current->type == append)
+		{
+			len->compteur_outfile_append = remplir_data(current->next->str, new->outfile_append, len->compteur_outfile_append);
+			len->compteur_outfile = remplir_data(current->next->str, new->outfile, len->compteur_outfile);
+		}
+		else if(current->type == trunc)
+			len->compteur_outfile = remplir_data(current->next->str, new->outfile, len->compteur_outfile);
+		else if(current->type == here_doc)
+		{
+			len->compteur_here_doc = remplir_data(current->next->str, new->here_doc, len->compteur_here_doc);
+			len->compteur_infile = remplir_data(current->next->str, new->infile, len->compteur_infile);
+		}
+		else if(current->type == infile)
+			len->compteur_infile = remplir_data(current->next->str, new->infile, len->compteur_infile);
+		current = current->next;
+	}
 	return (new);
 }
 

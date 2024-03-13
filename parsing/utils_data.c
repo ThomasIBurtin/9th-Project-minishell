@@ -1,16 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils_parse.c                                      :+:      :+:    :+:   */
+/*   utils_data.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: transfo <transfo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 19:11:10 by tburtin           #+#    #+#             */
-/*   Updated: 2024/03/12 11:32:42 by transfo          ###   ########.fr       */
+/*   Updated: 2024/03/13 17:47:36 by transfo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+
+void allocation_tab(t_len len, t_data *new)
+{
+	new->outfile =  ft_calloc(sizeof(char **), len.compteur_outfile_append + len.compteur_outfile + 1);
+	new->outfile_append = ft_calloc(sizeof(char **), len.compteur_outfile_append + 1);;
+	new->infile = ft_calloc(sizeof(char **), len.compteur_here_doc + len.compteur_infile + 1);
+	new->here_doc = ft_calloc(sizeof(char **), len.compteur_here_doc + 1);
+
+	new->outfile[len.compteur_outfile_append + len.compteur_outfile] = NULL;
+	new->outfile_append[len.compteur_outfile_append] = NULL;
+	new->infile[len.compteur_here_doc + len.compteur_infile] = NULL;
+	new->here_doc[len.compteur_here_doc] = NULL;
+}
+
 
 t_data *algo_outfile(t_token *current, t_data *new)
 {
@@ -61,35 +76,6 @@ int remplir_data(char *str, char **tab, int compteur)
 {
 	tab[compteur] = ft_strdup(str);
 	return (compteur + 1);
-}
-
-
-t_data *algo_redirection(t_token *current, t_data *new, t_len *len)
-{
-	init_compteurs(len);
-
-	if((new->infile[0] != NULL) && (new->infile[0][0] >= 'a' && new->infile[0][0] <= 'z'))
-		len->compteur_infile++;
-
-	while(current != NULL && current->type != pip)
-	{	
-		if(current->type == append)
-		{
-			len->compteur_outfile_append = remplir_data(current->next->str, new->outfile_append, len->compteur_outfile_append);
-			len->compteur_outfile = remplir_data(current->next->str, new->outfile, len->compteur_outfile);
-		}
-		else if(current->type == trunc)
-			len->compteur_outfile = remplir_data(current->next->str, new->outfile, len->compteur_outfile);
-		else if(current->type == here_doc)
-		{
-			len->compteur_here_doc = remplir_data(current->next->str, new->here_doc, len->compteur_here_doc);
-			len->compteur_infile = remplir_data(current->next->str, new->infile, len->compteur_infile);
-		}
-		else if(current->type == infile)
-			len->compteur_infile = remplir_data(current->next->str, new->infile, len->compteur_infile);
-		current = current->next;
-	}
-	return (new);
 }
 
 
