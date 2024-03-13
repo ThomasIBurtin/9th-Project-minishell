@@ -6,7 +6,7 @@
 /*   By: transfo <transfo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 19:31:57 by transfo           #+#    #+#             */
-/*   Updated: 2024/03/12 11:33:49 by transfo          ###   ########.fr       */
+/*   Updated: 2024/03/13 17:06:27 by transfo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,13 @@
 #include <sys/wait.h>
 #include <fcntl.h>
 
+
+typedef struct s_variable
+{
+    char *cle;
+    char *valeur;
+    struct s_variable *next; 
+}                   t_variable;
 
 typedef struct s_len
 {
@@ -59,7 +66,7 @@ typedef struct s_data
 
 typedef struct	s_token
 {
-	char			str[3000];
+	char			*str;
 	t_type				type;
 	struct s_token	*prev;
 	struct s_token	*next;
@@ -72,7 +79,7 @@ typedef struct s_programme
     char *const *split_args;
     t_token **liste_token;
     t_data **liste_data;
-   
+    t_variable **liste_variable;
 }   t_programme;
 
 
@@ -81,24 +88,27 @@ void init_data(t_programme *programme);
 void free_programme(t_programme *programme);
 void free_t_token(t_token *token);
 void free_t_data(t_data *data);
+void free_t_variable(t_variable *variable);
 
 // parsing
 int parse(t_programme *programme);
 int check_quotes(char *str);
 char *add_space_redirection(char *str);
-void get_tokens(t_token **liste_token, char **args);
+int get_tokens(t_token **liste_token, char **args, t_variable *liste_variable);
 int add_data(t_programme *programme);
 
     // token
     t_type get_type_arg(t_token *token, char *str);
-    t_token	*ft_newtoken(char *str);
+    t_token	*ft_newtoken(char *str, t_variable *liste_variable);
     void add_back_front(t_token **liste_token, t_token *new);
+    int variable_value(t_token *new, char *str, t_variable *liste_variable);
 
     // data
     t_data *ft_newcmd(t_token *current);
     t_data *parse_redirection(t_token *current, t_data *new);
     int check_redirection(t_token *current, t_len *len);
     void allocation_tab(t_len len, t_data *new);
+    void add_back_fronts(t_data **liste_data, t_data *new);
     
         // utils_data
         t_data *algo_outfile(t_token *current, t_data *new);
@@ -107,8 +117,16 @@ int add_data(t_programme *programme);
         int remplir_data(char *str, char **tab, int compteur);
         t_data *algo_redirection(t_token *current, t_data *new, t_len *len);
         void init_compteurs(t_len *len);
-        void add_back_fronts(t_data **liste_data, t_data *new);
-        int compare(char *str, char *strr);
+
+    // variable
+    t_variable *new_variable(char *str, int len_cle, int len_valeur);
+    int variable(t_programme *programme);
+    int algo_var(char **cmd_arg);
+    void remplir_var(char **cmd_arg, t_programme *programme);
+    void add_back_frontss(t_variable **liste_variable, t_variable *new);
+    void replace_value(int index, t_variable *liste_variable, int len_valeur, char *str);
+    int check_if_exsite(char *str, t_variable *liste_variable, int len_cle);
+    char **replace_commande(char **cmd_arg, int index);
 
 // execution
 void test(t_programme *programme);

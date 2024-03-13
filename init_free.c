@@ -6,7 +6,7 @@
 /*   By: transfo <transfo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 09:40:23 by transfo           #+#    #+#             */
-/*   Updated: 2024/03/12 11:33:09 by transfo          ###   ########.fr       */
+/*   Updated: 2024/03/13 17:05:39 by transfo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,22 @@ void free_t_token(t_token *token)
     while (token != NULL)
     {
         temp = token;
-        token = token->next; 
+        token = token->next;
+        free(temp->str);
+        free(temp);
+    }
+}
+
+
+void free_t_variable(t_variable *variable)
+{
+    t_variable *temp;
+    while (variable != NULL)
+    {
+        temp = variable;
+        variable = variable->next;
+        free(temp->cle);
+        free(temp->valeur);
         free(temp);
     }
 }

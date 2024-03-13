@@ -6,7 +6,7 @@
 /*   By: transfo <transfo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 19:31:27 by transfo           #+#    #+#             */
-/*   Updated: 2024/03/12 11:27:51 by transfo          ###   ########.fr       */
+/*   Updated: 2024/03/13 14:37:24 by transfo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,15 @@
 
 void test(t_programme *programme)
 {
-	    t_data *temp = *programme->liste_data;
+	t_data *temp = *programme->liste_data;
+    t_variable *temps = *programme->liste_variable;
     int i = 0;
     int j = 0;
     int k = 0;
     int f = 0;
     int m = 0;
+    int a = 0;
+    
 
     while(temp != NULL)
     {
@@ -69,7 +72,15 @@ void test(t_programme *programme)
         }
         printf("\n");
         printf("\n");
-        printf("\n");
         temp = temp->next;
+    }
+    while(temps)
+    {
+        a = 0;
+        printf("%s", temps->cle);
+        printf(" ");
+        printf("%s", temps->valeur);
+        printf("\n");
+        temps = temps->next;
     }
 }
