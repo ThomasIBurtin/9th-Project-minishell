@@ -6,7 +6,7 @@
 /*   By: transfo <transfo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 21:53:15 by transfo           #+#    #+#             */
-/*   Updated: 2024/03/14 22:01:12 by transfo          ###   ########.fr       */
+/*   Updated: 2024/03/14 22:49:55 by transfo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,17 @@ void create_commande(t_token *new, char *str, t_variable *liste_variable)
 		if(ft_strnchr(str, '$', i) == 1)
 		{
 			strr = extract(str, &i);
-			while(temp)
+			const char *value = getenv(strr);
+			if(value != NULL)
+				len += ft_strlen(value);
+			else
 			{
-				if(compare(temp->cle, strr) == 1)
-					len += ft_strlen(temp->valeur);
-				temp = temp->next;
+				while(temp)
+				{
+					if(compare(temp->cle, strr) == 1)
+						len += ft_strlen(temp->valeur);
+					temp = temp->next;
+				}
 			}
 		}
 		else	
@@ -38,8 +44,7 @@ void create_commande(t_token *new, char *str, t_variable *liste_variable)
 	}
 	if(wich_quotes(str) != 0)
 		len = len - 2;
-
-	new->str = (char *)malloc(sizeof(char) * len + 1 -2);
+	new->str = (char *)malloc(sizeof(char) * len +1 -2);
 	remplir_commande(new, str, liste_variable, wich_quotes(str));
 }
 
@@ -99,17 +104,26 @@ void remplir_commande(t_token *new, char *str, t_variable *liste_variable, int f
 	{
 		if(str[i + 1] && str[i + 1] != ' ' && str[i] == '$' && flag != 2)
 		{
-			char *strr = extract(str, &i);
 			temp = liste_variable;
-			while (temp)
+			int k = 0;
+			char *strr = extract(str, &i);
+			const char *value = getenv(strr);
+			if(value != NULL)
 			{
-				if (compare(temp->cle, strr) == 1)
+				while(value[k])
+					new->str[j++] = value[k++];
+			}
+			else
+			{
+				while(temp)
 				{
-					int k = 0;
-					while (temp->valeur[k])
-						new->str[j++] = temp->valeur[k++];
+					if (compare(temp->cle, strr) == 1)
+					{
+						while (temp->valeur[k])
+							new->str[j++] = temp->valeur[k++];
+					}
+					temp = temp->next;
 				}
-				temp = temp->next;
 			}
 		} 
 		else
