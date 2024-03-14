@@ -6,11 +6,11 @@
 /*   By: transfo <transfo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 19:11:10 by tburtin           #+#    #+#             */
-/*   Updated: 2024/03/13 17:47:36 by transfo          ###   ########.fr       */
+/*   Updated: 2024/03/14 21:59:11 by transfo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../../minishell.h"
 
 
 void allocation_tab(t_len len, t_data *new)

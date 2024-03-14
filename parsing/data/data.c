@@ -6,11 +6,11 @@
 /*   By: transfo <transfo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 10:55:53 by tburtin           #+#    #+#             */
-/*   Updated: 2024/03/13 17:48:52 by transfo          ###   ########.fr       */
+/*   Updated: 2024/03/14 21:59:08 by transfo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../../minishell.h"
 
 
 t_data *ft_newcmd(t_token *current)

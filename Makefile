@@ -3,11 +3,12 @@ CFLAGS = -Werror -Wall -Wextra
 SRC = main.c \
 	  init_free.c \
 	  parsing/parse.c \
-	  parsing/token.c \
-	  parsing/data.c \
-	  parsing/variable.c \
-	  parsing/utils_data.c \
-	  parsing/utils_variable.c \
+	  parsing/token/token.c \
+	  parsing/token/utils_token.c \
+	  parsing/data/data.c \
+	  variable/variable.c \
+	  parsing/data/utils_data.c \
+	  variable/utils_variable.c \
       execution/exec.c
 OBJ = $(SRC:.c=.o)
 LIBFT_OBJ = 1st-Project-Libft/*.o 

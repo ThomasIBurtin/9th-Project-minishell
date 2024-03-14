@@ -6,7 +6,7 @@
 /*   By: transfo <transfo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 19:31:57 by transfo           #+#    #+#             */
-/*   Updated: 2024/03/13 17:49:47 by transfo          ###   ########.fr       */
+/*   Updated: 2024/03/14 22:02:09 by transfo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,14 +94,19 @@ void free_t_variable(t_variable *variable);
 int parse(t_programme *programme);
 int check_quotes(char *str);
 char *add_space_redirection(char *str);
-int get_tokens(t_token **liste_token, char **args, t_variable *liste_variable);
+void get_tokens(t_token **liste_token, char **args, t_variable *liste_variable);
 int add_data(t_programme *programme);
 
     // token
     t_type get_type_arg(t_token *token, char *str);
     t_token	*ft_newtoken(char *str, t_variable *liste_variable);
     void add_back_front(t_token **liste_token, t_token *new);
-    int variable_value(t_token *new, char *str, t_variable *liste_variable);
+    
+        // utils_token
+        void create_commande(t_token *new, char *str, t_variable *liste_variable);
+        char *extract(char *str, int *i);
+        void remplir_commande(t_token *new, char *str, t_variable *liste_variable, int flag);
+        int wich_quotes(char *str);
 
     // data
     t_data *ft_newcmd(t_token *current);
@@ -118,11 +123,11 @@ int add_data(t_programme *programme);
         void init_compteurs(t_len *len);
         void allocation_tab(t_len len, t_data *new);
 
-    // variable
-    int variable(t_programme *programme);
-    int algo_var(char **cmd_arg);
-    void remplir_var(char **cmd_arg, t_programme *programme);
-    char **replace_commande(char **cmd_arg, int index);
+// variable
+int variable(t_programme *programme);
+int algo_var(char **cmd_arg);
+void remplir_var(char **cmd_arg, t_programme *programme);
+char **replace_commande(char **cmd_arg, int index);
         
         // utils_variable
         void replace_value(int index, t_variable *liste_variable, int len_valeur, char *str);

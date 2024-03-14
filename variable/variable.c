@@ -6,7 +6,7 @@
 /*   By: transfo <transfo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 13:47:37 by transfo           #+#    #+#             */
-/*   Updated: 2024/03/13 17:43:36 by transfo          ###   ########.fr       */
+/*   Updated: 2024/03/14 12:10:08 by transfo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int variable(t_programme *programme)
     if(ft_strlen(programme->args) < 1)
         return(0);
 
-    if(ft_strchr(liste_data->cmd_arg[0], '=') == 0)
+    if(ft_strchr_modife(liste_data->cmd_arg[0], '=') == 0)
         return(1);
     
     index = algo_var(liste_data->cmd_arg);
@@ -41,7 +41,7 @@ int algo_var(char **cmd_arg)
     int i = 0;
     while(cmd_arg[i])
     {
-        if(ft_strchr(cmd_arg[i], '=') == 0)
+        if(ft_strchr_modife(cmd_arg[i], '=') == 0)
             return(i);
         i++;
     }
