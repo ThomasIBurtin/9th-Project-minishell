@@ -7,7 +7,6 @@ SRC = ft_atoi.c \
       ft_strlcat.c \
       ft_strlcpy.c \
       ft_strlen.c \
-      ft_strtrim.c \
       ft_strjoin.c \
       ft_substr.c \
       ft_strchr.c \
@@ -16,8 +15,7 @@ SRC = ft_atoi.c \
       ft_putendl_fd.c \
       ft_itoa.c \
       ft_split.c \
-      ft_compare.c \
-      ft_putnbr_fd.c
+      ft_compare.c
 
 OBJ = $(SRC:.c=.o)
 NAME = libft.a

@@ -6,7 +6,7 @@
 /*   By: transfo <transfo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 13:47:37 by transfo           #+#    #+#             */
-/*   Updated: 2024/03/14 12:10:08 by transfo          ###   ########.fr       */
+/*   Updated: 2024/03/14 22:23:25 by transfo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,9 @@ int variable(t_programme *programme)
     if(ft_strchr_modife(liste_data->cmd_arg[0], '=') == 0)
         return(1);
     
-    index = algo_var(liste_data->cmd_arg);
+    index = check_ifonly_var(liste_data->cmd_arg);
     if(index == -1)
-        remplir_var(liste_data->cmd_arg, programme);
+        remplir_liste_var(liste_data->cmd_arg, programme);
     else
         {
             liste_data->cmd_arg = replace_commande(liste_data->cmd_arg, index);
@@ -36,7 +36,7 @@ int variable(t_programme *programme)
 }
 
 
-int algo_var(char **cmd_arg)
+int check_ifonly_var(char **cmd_arg)
 {
     int i = 0;
     while(cmd_arg[i])
@@ -49,7 +49,7 @@ int algo_var(char **cmd_arg)
 }
 
 
-void remplir_var(char **cmd_arg, t_programme *programme)
+void remplir_liste_var(char **cmd_arg, t_programme *programme)
 {
     t_variable *new;
     int i = 0;

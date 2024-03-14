@@ -6,7 +6,7 @@
 /*   By: transfo <transfo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 19:31:57 by transfo           #+#    #+#             */
-/*   Updated: 2024/03/14 22:02:09 by transfo          ###   ########.fr       */
+/*   Updated: 2024/03/14 22:23:32 by transfo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,8 +125,8 @@ int add_data(t_programme *programme);
 
 // variable
 int variable(t_programme *programme);
-int algo_var(char **cmd_arg);
-void remplir_var(char **cmd_arg, t_programme *programme);
+int check_ifonly_var(char **cmd_arg);
+void remplir_liste_var(char **cmd_arg, t_programme *programme);
 char **replace_commande(char **cmd_arg, int index);
         
         // utils_variable
