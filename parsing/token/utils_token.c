@@ -6,47 +6,11 @@
 /*   By: transfo <transfo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 21:53:15 by transfo           #+#    #+#             */
-/*   Updated: 2024/03/15 13:13:08 by transfo          ###   ########.fr       */
+/*   Updated: 2024/03/15 13:45:26 by transfo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
-
-
-void create_commande(t_token *new, char *str, t_variable *liste_variable)
-{
-	int i = 0;
-	t_variable *temp;
-	int len = ft_strlen_modife(str);
-	char *strr;
-	
-	while(str[i])
-	{
-		temp = liste_variable;
-		if(ft_strnchr(str, '$', i) == 1)
-		{
-			strr = extract(str, &i);
-			const char *value = getenv(strr);
-			if(value != NULL)
-				len += ft_strlen(value);
-			else
-			{
-				while(temp)
-				{
-					if(compare(temp->cle, strr) == 1)
-						len += ft_strlen(temp->valeur);
-					temp = temp->next;
-				}
-			}
-		}
-		else	
-			break;
-	}
-	if(wich_quotes(str) != 0)
-		len = len - 2;
-	new->str = (char *)malloc(sizeof(char) * len + 1);
-	remplir_commande(new, str, liste_variable, wich_quotes(str));
-}
 
 
 char *extract(char *str, int *i)
@@ -137,7 +101,7 @@ void input_variable(t_token *new, t_variable *liste_variable, char *strr, int *j
 			if (compare(liste_variable->cle, strr) == 1)
 			{
 				while (liste_variable->valeur[k])
-				new->str[(*j)++] = liste_variable->valeur[k++];
+					new->str[(*j)++] = liste_variable->valeur[k++];
 			}
 			liste_variable = liste_variable->next;
 		}
