@@ -6,7 +6,7 @@
 /*   By: transfo <transfo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 21:53:15 by transfo           #+#    #+#             */
-/*   Updated: 2024/03/14 22:49:55 by transfo          ###   ########.fr       */
+/*   Updated: 2024/03/15 13:13:08 by transfo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void create_commande(t_token *new, char *str, t_variable *liste_variable)
 	}
 	if(wich_quotes(str) != 0)
 		len = len - 2;
-	new->str = (char *)malloc(sizeof(char) * len +1 -2);
+	new->str = (char *)malloc(sizeof(char) * len + 1);
 	remplir_commande(new, str, liste_variable, wich_quotes(str));
 }
 
@@ -104,27 +104,8 @@ void remplir_commande(t_token *new, char *str, t_variable *liste_variable, int f
 	{
 		if(str[i + 1] && str[i + 1] != ' ' && str[i] == '$' && flag != 2)
 		{
-			temp = liste_variable;
-			int k = 0;
 			char *strr = extract(str, &i);
-			const char *value = getenv(strr);
-			if(value != NULL)
-			{
-				while(value[k])
-					new->str[j++] = value[k++];
-			}
-			else
-			{
-				while(temp)
-				{
-					if (compare(temp->cle, strr) == 1)
-					{
-						while (temp->valeur[k])
-							new->str[j++] = temp->valeur[k++];
-					}
-					temp = temp->next;
-				}
-			}
+			input_variable(new, liste_variable, strr, &j);
 		} 
 		else
 		{
@@ -136,6 +117,31 @@ void remplir_commande(t_token *new, char *str, t_variable *liste_variable, int f
 		}
 	}
 	new->str[j] = '\0';
+}
+
+
+void input_variable(t_token *new, t_variable *liste_variable, char *strr, int *j)
+{
+	int k = 0;
+	const char *value = getenv(strr);
+	
+	if(value != NULL)
+	{
+		while(value[k])
+			new->str[(*j)++] = value[k++];
+	}
+	else
+	{
+		while(liste_variable)
+		{
+			if (compare(liste_variable->cle, strr) == 1)
+			{
+				while (liste_variable->valeur[k])
+				new->str[(*j)++] = liste_variable->valeur[k++];
+			}
+			liste_variable = liste_variable->next;
+		}
+	}
 }
 
 

@@ -1,7 +1,6 @@
 CC = gcc
 CFLAGS = -Wall -Wextra -Werror
-SRC = ft_atoi.c \
-      ft_calloc.c \
+SRC = ft_calloc.c \
       ft_memset.c \
       ft_strdup.c \
       ft_strlcat.c \
@@ -13,7 +12,6 @@ SRC = ft_atoi.c \
       ft_putchar_fd.c \
       ft_putstr_fd.c \
       ft_putendl_fd.c \
-      ft_itoa.c \
       ft_split.c \
       ft_compare.c
 

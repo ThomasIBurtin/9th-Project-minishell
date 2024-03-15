@@ -6,7 +6,7 @@
 /*   By: transfo <transfo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 19:31:57 by transfo           #+#    #+#             */
-/*   Updated: 2024/03/14 22:23:32 by transfo          ###   ########.fr       */
+/*   Updated: 2024/03/15 13:13:29 by transfo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,7 @@ int add_data(t_programme *programme);
         char *extract(char *str, int *i);
         void remplir_commande(t_token *new, char *str, t_variable *liste_variable, int flag);
         int wich_quotes(char *str);
+        void input_variable(t_token *new, t_variable *liste_variable, char *strr, int *j);
 
     // data
     t_data *ft_newcmd(t_token *current);

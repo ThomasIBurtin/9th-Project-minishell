@@ -6,7 +6,7 @@
 /*   By: transfo <transfo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 13:47:37 by transfo           #+#    #+#             */
-/*   Updated: 2024/03/14 22:23:25 by transfo          ###   ########.fr       */
+/*   Updated: 2024/03/15 12:27:06 by transfo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int variable(t_programme *programme)
     if(ft_strlen(programme->args) < 1)
         return(0);
 
-    if(ft_strchr_modife(liste_data->cmd_arg[0], '=') == 0)
+    if(ft_strchr(liste_data->cmd_arg[0], '=') == 0)
         return(1);
     
     index = check_ifonly_var(liste_data->cmd_arg);
@@ -41,7 +41,7 @@ int check_ifonly_var(char **cmd_arg)
     int i = 0;
     while(cmd_arg[i])
     {
-        if(ft_strchr_modife(cmd_arg[i], '=') == 0)
+        if(ft_strchr(cmd_arg[i], '=') == 0)
             return(i);
         i++;
     }
@@ -53,9 +53,9 @@ void remplir_liste_var(char **cmd_arg, t_programme *programme)
 {
     t_variable *new;
     int i = 0;
-    int j = 0;
-    int len_cle = 0;
-    int len_valeur = 0;
+    int j;
+    int len_cle;
+    int len_valeur;
     int index;
 
     while(cmd_arg[i])
@@ -63,17 +63,11 @@ void remplir_liste_var(char **cmd_arg, t_programme *programme)
         j = 0;
         len_cle = 0;
         len_valeur = 0;
-        while(cmd_arg[i][j] != '=')
-        {
+        while(cmd_arg[i][j++] != '=')
             len_cle++;
-            j++;
-        }
         j++;
-        while(cmd_arg[i][j])
-        {
+        while(cmd_arg[i][j++])
             len_valeur++;
-            j++;
-        }
         index = check_if_exsite(cmd_arg[i], *programme->liste_variable, len_cle);
         if(index != -1)
             replace_value(index, *programme->liste_variable, len_valeur, cmd_arg[i]);
