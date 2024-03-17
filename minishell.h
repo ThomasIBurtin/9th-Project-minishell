@@ -6,7 +6,7 @@
 /*   By: transfo <transfo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 19:31:57 by transfo           #+#    #+#             */
-/*   Updated: 2024/03/17 03:35:56 by transfo          ###   ########.fr       */
+/*   Updated: 2024/03/17 12:47:26 by transfo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ int add_data(t_programme *programme);
     // token
     t_token	*ft_newtoken(char *str, t_variable *liste_variable);
     int len_commande(char *str, t_variable *liste_variable);
-    void create_commande(t_token *new, char *str, t_variable *liste_variable, int len);
+    void create_commande(t_token *new, char *str, t_variable *liste_variable);
     void add_back_front(t_token **liste_token, t_token *new);
     t_type get_type_arg(t_token *token, char *str);
     

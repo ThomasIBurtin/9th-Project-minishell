@@ -6,7 +6,7 @@
 /*   By: transfo <transfo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 12:16:39 by tburtin           #+#    #+#             */
-/*   Updated: 2024/03/17 03:34:39 by transfo          ###   ########.fr       */
+/*   Updated: 2024/03/17 12:47:04 by transfo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ t_token	*ft_newtoken(char *str, t_variable *liste_variable)
 	t_token	*new = (t_token *)malloc(sizeof(t_token));
 	int len = len_commande(str, liste_variable);
 	new->str = (char *)malloc(sizeof(char) * len + 1);
-	create_commande(new, str, liste_variable, len);
+	create_commande(new, str, liste_variable);
 	new->next = NULL;
 	new->prev = NULL;
 	return(new);
@@ -56,11 +56,10 @@ int len_commande(char *str, t_variable *liste_variable)
 }
 
 
-void create_commande(t_token *new, char *str, t_variable *liste_variable, int len)
+void create_commande(t_token *new, char *str, t_variable *liste_variable)
 {
 	int i = 0;
 	int j = 0;
-	t_variable *temp;
 	
 	while(str[i])
 	{

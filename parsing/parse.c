@@ -6,7 +6,7 @@
 /*   By: transfo <transfo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 11:18:00 by transfo           #+#    #+#             */
-/*   Updated: 2024/03/17 03:45:08 by transfo          ###   ########.fr       */
+/*   Updated: 2024/03/17 12:38:37 by transfo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,21 +15,26 @@
 int check_quotes(char *str)
 {
     int i = 0;
-    int flag_1 = 0;
-    int flag_2 = 0;
 
     while(str[i])
     {
         if(str[i] == 34)
-            flag_1++;
+        {
+            i++;
+            while(str[i] && str[i] != 34)
+                i++;
+            if(str[i] == '\0')
+                return(0);
+        }
         if(str[i] == 39)
-            flag_2++;
+        {
+            i++;
+            while(str[i] && str[i] != 39)
+                i++;
+            if(str[i] == '\0')
+                return(0);
+        }
         i++;
-    }
-    if(flag_1 % 2 != 0 || flag_2 % 2 != 0)
-    {
-        perror("quotes ");
-        return(0);
     }
     return(1);   
 }
@@ -98,6 +103,7 @@ int get_tokens(t_token **liste_token, char **args, t_variable *liste_variable)
             return(0);
         current = current->next;
     }
+    return(1);
 }
 
 

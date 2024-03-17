@@ -6,7 +6,7 @@
 /*   By: transfo <transfo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 21:53:15 by transfo           #+#    #+#             */
-/*   Updated: 2024/03/17 03:37:55 by transfo          ###   ########.fr       */
+/*   Updated: 2024/03/17 12:48:23 by transfo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,37 +16,36 @@
 int len_var(char *str, int *i, t_variable *liste_variable)
 {
 	int len = 0;
-	t_variable *temp;
 	char *strr;
 
-		temp = liste_variable;
-		if(str[*i] == '$' && (str[*i+1] == ' ' || str[*i+1] == 34 || str[*i+1] == 39))
-		{
-			len++;
-			*i+=1;
-		}
-		else if(str[*i] == '$')
-		{
-			*i+=1;
-			strr = extracte_cle(str, i);
-			const char *value = getenv(strr);
-			if(value != NULL)
-				len += ft_strlen(value);
-			else
-			{
-				while(temp)
-				{
-					if(compare(temp->cle, strr) == 1)
-						len += ft_strlen(temp->valeur);
-					temp = temp->next;
-				}
-			}
-		}
+	if(str[*i] == '$' && (str[*i+1] == ' ' || str[*i+1] == 34 || str[*i+1] == 39))
+	{
+		len++;
+		*i+=1;
+	}
+	else if(str[*i] == '$')
+	{
+		*i+=1;
+		strr = extracte_cle(str, i);
+		const char *value = getenv(strr);
+		if(value != NULL)
+			len += ft_strlen(value);
 		else
 		{
-			len++;
-			*i+=1;
+			while(liste_variable)
+			{
+				if(compare(liste_variable->cle, strr) == 1)
+					len += ft_strlen(liste_variable->valeur);
+				liste_variable = liste_variable->next;
+			}
 		}
+		//free(strr);
+	}
+	else
+	{
+		len++;
+		*i+=1;
+	}
 	return(len);
 }
 
@@ -80,6 +79,7 @@ void input_var(t_token *new, char *str, t_variable *liste_variable, int *i, int 
 				liste_variable = liste_variable->next;
 			}
 		}
+		//free(strr);
 	}
 	else
 		new->str[(*j)++] = str[(*i)++];	
