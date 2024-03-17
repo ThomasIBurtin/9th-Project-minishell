@@ -6,7 +6,7 @@
 /*   By: transfo <transfo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 11:18:00 by transfo           #+#    #+#             */
-/*   Updated: 2024/03/14 17:02:02 by transfo          ###   ########.fr       */
+/*   Updated: 2024/03/17 03:45:08 by transfo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ char *add_space_redirection(char *str)
 }
 
 
-void get_tokens(t_token **liste_token, char **args, t_variable *liste_variable)
+int get_tokens(t_token **liste_token, char **args, t_variable *liste_variable)
 {
 	int i = 0;
 	t_token *new;
@@ -91,6 +91,13 @@ void get_tokens(t_token **liste_token, char **args, t_variable *liste_variable)
 		new->type = get_type_arg(new, args[i]);
 		i++;
 	}
+    t_token *current = *liste_token;
+    while(current)
+    {
+        if((current->prev == NULL || current->prev->type == pip) && current->type != commande)
+            return(0);
+        current = current->next;
+    }
 }
 
 
@@ -118,12 +125,15 @@ int add_data(t_programme *programme)
 
 int parse(t_programme *programme)
 {
+    if(ft_strlen(programme->args) < 1)
+        return(0);
     if(check_quotes(programme->args) == 0)
         return(0);
     programme->args = add_space_redirection(programme->args);
     programme->split_args = (char *const *)ft_split(programme->args, ' ');
-    get_tokens(programme->liste_token, (char **)programme->split_args, *programme->liste_variable);
-    if (add_data(programme) == 0)
+    if(get_tokens(programme->liste_token, (char **)programme->split_args, *programme->liste_variable) == 0)
+        return(0);
+    if(add_data(programme) == 0)
         return(0);
     return(1);
 }

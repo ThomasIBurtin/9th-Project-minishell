@@ -6,115 +6,100 @@
 /*   By: transfo <transfo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 21:53:15 by transfo           #+#    #+#             */
-/*   Updated: 2024/03/15 13:45:26 by transfo          ###   ########.fr       */
+/*   Updated: 2024/03/17 03:37:55 by transfo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
 
-char *extract(char *str, int *i)
+int len_var(char *str, int *i, t_variable *liste_variable)
 {
 	int len = 0;
-	int j = *i;
-	int k = 0;
+	t_variable *temp;
+	char *strr;
 
-	while(str[j])
-	{
-		if(len != 0)
-			break;
-		if(str[j] == '$')
+		temp = liste_variable;
+		if(str[*i] == '$' && (str[*i+1] == ' ' || str[*i+1] == 34 || str[*i+1] == 39))
 		{
-			j++;
-			while(str[j] && str[j] != ' ' && str[j] != 34 && str[j] != 39)
-			{
-				j++;
-				len++;
-			}
+			len++;
+			*i+=1;
 		}
-		j++;
-	}
-	char *result = (char *)malloc(sizeof(char) * len + 1);
-	while(str[*i])
-	{
-		if(str[*i] == '$')
+		else if(str[*i] == '$')
 		{
 			*i+=1;
-			while(str[*i] && str[*i] != ' ' && str[*i] != 34 && str[*i] != 39)
+			strr = extracte_cle(str, i);
+			const char *value = getenv(strr);
+			if(value != NULL)
+				len += ft_strlen(value);
+			else
 			{
-				result[k] = str[*i];
-				*i+=1;
-				k++;
-			}
-			if(k != 0)
-			{
-				result[k] = '\0';
-				return(result);
+				while(temp)
+				{
+					if(compare(temp->cle, strr) == 1)
+						len += ft_strlen(temp->valeur);
+					temp = temp->next;
+				}
 			}
 		}
-		*i+=1;
-	}
-	return(0);
-}
-
-
-void remplir_commande(t_token *new, char *str, t_variable *liste_variable, int flag)
-{
-	int i = 0;
-	int j = 0;
-	t_variable *temp;
-	
-	while (str[i])
-	{
-		if(str[i + 1] && str[i + 1] != ' ' && str[i] == '$' && flag != 2)
-		{
-			char *strr = extract(str, &i);
-			input_variable(new, liste_variable, strr, &j);
-		} 
 		else
 		{
-			if((flag == 1 || flag == 2) && i > 0 && str[i+1] != '\0')
-				new->str[j++] = str[i];
-			else if(flag != 1 && flag != 2)
-    			new->str[j++] = str[i];
-			i++;
+			len++;
+			*i+=1;
 		}
-	}
-	new->str[j] = '\0';
+	return(len);
 }
 
 
-void input_variable(t_token *new, t_variable *liste_variable, char *strr, int *j)
+void input_var(t_token *new, char *str, t_variable *liste_variable, int *i, int *j)
 {
-	int k = 0;
-	const char *value = getenv(strr);
+	char *strr;
 	
-	if(value != NULL)
+	if(str[*i] == '$' && (str[*i+1] == ' ' || str[*i+1] == 34 || str[*i+1] == 39 || str[*i+1] == '\0'))
+		new->str[(*j)++] = str[(*i)++];
+	else if(str[*i] == '$')
 	{
-		while(value[k])
-			new->str[(*j)++] = value[k++];
-	}
-	else
-	{
-		while(liste_variable)
+		int k = 0;
+		*i+=1;
+		strr = extracte_cle(str, i);
+		const char *value = getenv(strr);
+		if(value != NULL)
 		{
-			if (compare(liste_variable->cle, strr) == 1)
+			while(value[k])
+			new->str[(*j)++] = value[k++];
+		}
+		else
+		{
+			while(liste_variable)
 			{
-				while (liste_variable->valeur[k])
-					new->str[(*j)++] = liste_variable->valeur[k++];
+				if(compare(liste_variable->cle, strr) == 1)
+				{
+					while(liste_variable->valeur[k])
+					new->str[(*j)++] = liste_variable->valeur[k++];	
+				}
+				liste_variable = liste_variable->next;
 			}
-			liste_variable = liste_variable->next;
 		}
 	}
+	else
+		new->str[(*j)++] = str[(*i)++];	
 }
 
 
-int wich_quotes(char *str)
+char *extracte_cle(char *str, int *i)
 {
-	if(str[0] == 39 && str[ft_strlen(str) - 1] == 39)
-		return(2);
-	else if(str[0] == 34 && str[ft_strlen(str) - 1] == 34)
-		return(1);
-	else
-		return(0);
+	int compteur = 0;
+	int save = *i;
+	int j = 0;
+
+	while(str[*i] && str[*i] != ' ' && str[*i] != 34 && str[*i] != 39)
+	{
+		*i+=1;
+		compteur++;
+	}
+	char *result = (char *)malloc(sizeof(char) * compteur + 1);
+	while(str[save] && str[save] != ' ' && str[save] != 34 && str[save] != 39)
+		result[j++] = str[save++];
+	result[j] = '\0';
+	return(result);
 }

@@ -6,7 +6,7 @@
 /*   By: transfo <transfo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 13:47:37 by transfo           #+#    #+#             */
-/*   Updated: 2024/03/15 12:27:06 by transfo          ###   ########.fr       */
+/*   Updated: 2024/03/17 02:51:38 by transfo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,6 @@ int variable(t_programme *programme)
 {
     t_data *liste_data = *programme->liste_data;
     int index;
-    
-    if(ft_strlen(programme->args) < 1)
-        return(0);
 
     if(ft_strchr(liste_data->cmd_arg[0], '=') == 0)
         return(1);

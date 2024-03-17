@@ -6,7 +6,7 @@
 /*   By: transfo <transfo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 19:31:33 by transfo           #+#    #+#             */
-/*   Updated: 2024/03/14 22:19:58 by transfo          ###   ########.fr       */
+/*   Updated: 2024/03/17 00:25:23 by transfo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,4 +32,5 @@ int main(int argc, char **argv, char **envp)
     if (*programme.liste_variable != NULL)
         free_t_variable(*programme.liste_variable);
     free(programme.liste_variable);
+    
 }

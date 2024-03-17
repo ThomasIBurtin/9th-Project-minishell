@@ -6,7 +6,7 @@
 /*   By: transfo <transfo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 19:31:57 by transfo           #+#    #+#             */
-/*   Updated: 2024/03/15 13:13:29 by transfo          ###   ########.fr       */
+/*   Updated: 2024/03/17 03:35:56 by transfo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,20 +94,20 @@ void free_t_variable(t_variable *variable);
 int parse(t_programme *programme);
 int check_quotes(char *str);
 char *add_space_redirection(char *str);
-void get_tokens(t_token **liste_token, char **args, t_variable *liste_variable);
+int get_tokens(t_token **liste_token, char **args, t_variable *liste_variable);
 int add_data(t_programme *programme);
 
     // token
-    t_type get_type_arg(t_token *token, char *str);
     t_token	*ft_newtoken(char *str, t_variable *liste_variable);
+    int len_commande(char *str, t_variable *liste_variable);
+    void create_commande(t_token *new, char *str, t_variable *liste_variable, int len);
     void add_back_front(t_token **liste_token, t_token *new);
+    t_type get_type_arg(t_token *token, char *str);
     
         // utils_token
-        void create_commande(t_token *new, char *str, t_variable *liste_variable);
-        char *extract(char *str, int *i);
-        void remplir_commande(t_token *new, char *str, t_variable *liste_variable, int flag);
-        int wich_quotes(char *str);
-        void input_variable(t_token *new, t_variable *liste_variable, char *strr, int *j);
+        int len_var(char *str, int *i, t_variable *liste_variable);
+        void input_var(t_token *new, char *str, t_variable *liste_variable, int *i, int *j);
+        char *extracte_cle(char *str, int *i);
 
     // data
     t_data *ft_newcmd(t_token *current);
