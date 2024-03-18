@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_data.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: transfo <transfo@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tburtin <tburtin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 19:11:10 by tburtin           #+#    #+#             */
-/*   Updated: 2024/03/14 21:59:11 by transfo          ###   ########.fr       */
+/*   Updated: 2024/03/18 20:16:55 by tburtin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,19 +15,21 @@
 
 void allocation_tab(t_len len, t_data *new)
 {
-	new->outfile =  ft_calloc(sizeof(char **), len.compteur_outfile_append + len.compteur_outfile + 1);
-	new->outfile_append = ft_calloc(sizeof(char **), len.compteur_outfile_append + 1);;
-	new->infile = ft_calloc(sizeof(char **), len.compteur_here_doc + len.compteur_infile + 1);
-	new->here_doc = ft_calloc(sizeof(char **), len.compteur_here_doc + 1);
+	new->cmd_arg = ft_calloc(sizeof(char **), len.compteur_commande + 1);;
+	new->outfile =  ft_calloc(sizeof(char **), len.compteur_append + len.compteur_outfile + 1);
+	new->outfile_append = ft_calloc(sizeof(char **), len.compteur_append + 1);
+	new->infile = ft_calloc(sizeof(char **), len.compteur_heredoc + len.compteur_infile + 1);
+	new->here_doc = ft_calloc(sizeof(char **), len.compteur_heredoc + 1);
 
-	new->outfile[len.compteur_outfile_append + len.compteur_outfile] = NULL;
-	new->outfile_append[len.compteur_outfile_append] = NULL;
-	new->infile[len.compteur_here_doc + len.compteur_infile] = NULL;
-	new->here_doc[len.compteur_here_doc] = NULL;
+	new->here_doc[len.compteur_append] = NULL;
+	new->outfile[len.compteur_append + len.compteur_outfile] = NULL;
+	new->outfile_append[len.compteur_append] = NULL;
+	new->infile[len.compteur_heredoc + len.compteur_infile] = NULL;
+	new->here_doc[len.compteur_heredoc] = NULL;
 }
 
 
-t_data *algo_outfile(t_token *current, t_data *new)
+void algo_outfile(t_token *current, t_data *new)
 {
 	int flag = 0;
 
@@ -43,11 +45,10 @@ t_data *algo_outfile(t_token *current, t_data *new)
 	}
 	if(flag == 0)
 		new->outfile[0] = ft_strdup("stdout");
-	return(new);
 }
 
 
-t_data *algo_infile(t_data *new, int position, char *last_outfile)
+void algo_infile(t_data *new, int position, char *last_outfile)
 {
 	if(position == 0)
 		new->infile[0] = ft_strdup("stdin");
@@ -58,7 +59,6 @@ t_data *algo_infile(t_data *new, int position, char *last_outfile)
 		else
 			new->infile[0] = ft_strdup(last_outfile);
 	}
-	return(new);
 }
 
 
@@ -81,8 +81,9 @@ int remplir_data(char *str, char **tab, int compteur)
 
 void init_compteurs(t_len *len)
 {
-	len->compteur_outfile_append = 0;
+	len->compteur_commande = 0;
+	len->compteur_append = 0;
 	len->compteur_outfile = 0;
-	len->compteur_here_doc = 0;
+	len->compteur_heredoc = 0;
 	len->compteur_infile = 0;
 }

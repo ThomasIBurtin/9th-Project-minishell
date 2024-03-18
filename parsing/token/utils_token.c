@@ -3,14 +3,73 @@
 /*                                                        :::      ::::::::   */
 /*   utils_token.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: transfo <transfo@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tburtin <tburtin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 21:53:15 by transfo           #+#    #+#             */
-/*   Updated: 2024/03/17 12:48:23 by transfo          ###   ########.fr       */
+/*   Updated: 2024/03/18 20:53:17 by tburtin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
+
+
+void len_commande(char *str, t_variable *liste_variable, t_token *new)
+{
+	int i = 0;
+	int len = 0;
+	
+	while(str[i])
+	{
+		if(str[i] == 34)
+		{
+			i++;
+			while(str[i] != 34)
+				len += len_var(str, &i, liste_variable);
+			i++;
+		}
+		else if(str[i] == 39)
+		{
+			i++;
+			while(str[i] != 39)
+			{
+				i++;
+				len++;
+			}
+			i++;
+		}
+		else
+			len += len_var(str, &i, liste_variable);
+	}
+	new->str = (char *)malloc(sizeof(char) * len + 1);
+}
+
+
+void create_commande(t_token *new, char *str, t_variable *liste_variable)
+{
+	int i = 0;
+	int j = 0;
+	
+	while(str[i])
+	{
+		if(str[i] == 34)
+		{
+			i++;
+			while(str[i] != 34)
+				input_var(new, str, liste_variable, &i, &j);
+			i++;
+		}
+		else if(str[i] == 39)
+		{
+			i++;
+			while(str[i] != 39)
+				new->str[j++] = str[i++];
+			i++;
+		}
+		else
+			input_var(new, str, liste_variable, &i, &j);
+	}
+	new->str[j] = '\0';
+}
 
 
 int len_var(char *str, int *i, t_variable *liste_variable)

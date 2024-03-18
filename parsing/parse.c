@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: transfo <transfo@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tburtin <tburtin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 11:18:00 by transfo           #+#    #+#             */
-/*   Updated: 2024/03/17 12:38:37 by transfo          ###   ########.fr       */
+/*   Updated: 2024/03/18 20:50:38 by tburtin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,39 +93,35 @@ int get_tokens(t_token **liste_token, char **args, t_variable *liste_variable)
 	{
 		new = ft_newtoken(args[i], liste_variable);
 		add_back_front(liste_token, new);
-		new->type = get_type_arg(new, args[i]);
 		i++;
 	}
-    t_token *current = *liste_token;
-    while(current)
-    {
-        if((current->prev == NULL || current->prev->type == pip) && current->type != commande)
-            return(0);
-        current = current->next;
-    }
+    if(get_type_arg(liste_token) == 0)
+        return(0);
     return(1);
 }
 
 
-int add_data(t_programme *programme)
+void add_data(t_data **liste_data, t_token **liste_token)
 {
     t_data *new;
-    t_token *current = *programme->liste_token;
-    int i = 0;
+    t_token *current = *liste_token;
+    int flag = 1;
 
     while(current != NULL)
     {
-        if(current->type == commande)
+        if(current->type == pip)
         {
+            flag = 1;
+            current = current->next;
+        }
+        if(flag == 1)
+        {
+            flag = 0;
             new = ft_newcmd(current);
-            if(new == 0)
-                return(0);
-            add_back_fronts(programme->liste_data, new);
+            add_back_fronts(liste_data, new);
         }
         current = current->next;
-        i++;
     }
-    return(1);
 }
 
 
@@ -139,7 +135,6 @@ int parse(t_programme *programme)
     programme->split_args = (char *const *)ft_split(programme->args, ' ');
     if(get_tokens(programme->liste_token, (char **)programme->split_args, *programme->liste_variable) == 0)
         return(0);
-    if(add_data(programme) == 0)
-        return(0);
+    add_data(programme->liste_data, programme->liste_token);
     return(1);
 }

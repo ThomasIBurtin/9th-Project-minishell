@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: transfo <transfo@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tburtin <tburtin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 19:31:57 by transfo           #+#    #+#             */
-/*   Updated: 2024/03/17 12:47:26 by transfo          ###   ########.fr       */
+/*   Updated: 2024/03/18 20:55:40 by tburtin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,11 @@ typedef struct s_variable
 
 typedef struct s_len
 {
+    int compteur_commande;
     int compteur_outfile;
-    int compteur_outfile_append;
+    int compteur_append;
     int compteur_infile;
-    int compteur_here_doc;
+    int compteur_heredoc;
 }                   t_len;
 
 
@@ -48,6 +49,7 @@ typedef enum s_type
     infile,
     pip,
     here_doc,
+    none,
 }           t_type;
 
 
@@ -95,30 +97,30 @@ int parse(t_programme *programme);
 int check_quotes(char *str);
 char *add_space_redirection(char *str);
 int get_tokens(t_token **liste_token, char **args, t_variable *liste_variable);
-int add_data(t_programme *programme);
+void add_data(t_data **liste_data, t_token **liste_token);
 
     // token
     t_token	*ft_newtoken(char *str, t_variable *liste_variable);
-    int len_commande(char *str, t_variable *liste_variable);
-    void create_commande(t_token *new, char *str, t_variable *liste_variable);
     void add_back_front(t_token **liste_token, t_token *new);
-    t_type get_type_arg(t_token *token, char *str);
+    t_type get_type_arg(t_token **liste_token);
+    int modife_liste(t_token *current, t_type type, t_token **liste_token);
     
         // utils_token
+        void len_commande(char *str, t_variable *liste_variable, t_token *new);
+        void create_commande(t_token *new, char *str, t_variable *liste_variable);
         int len_var(char *str, int *i, t_variable *liste_variable);
         void input_var(t_token *new, char *str, t_variable *liste_variable, int *i, int *j);
         char *extracte_cle(char *str, int *i);
 
     // data
     t_data *ft_newcmd(t_token *current);
-    t_data *parse_redirection(t_token *current, t_data *new);
-    int check_redirection(t_token *current, t_len *len);
     void add_back_fronts(t_data **liste_data, t_data *new);
-    t_data *algo_redirection(t_token *current, t_data *new, t_len *len);
+    void input_all_tab(t_token *current, t_data *new);
+    int len_all_tab(t_token *current, t_len *len, int position);
     
         // utils_data
-        t_data *algo_outfile(t_token *current, t_data *new);
-        t_data *algo_infile(t_data *new, int position, char *last_outfile);
+        void algo_outfile(t_token *current, t_data *new);
+        void algo_infile(t_data *new, int position, char *last_outfile);
         char *find_last_outfile(char **tab);
         int remplir_data(char *str, char **tab, int compteur);
         void init_compteurs(t_len *len);
