@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   data.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tburtin <tburtin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: transfo <transfo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 10:55:53 by tburtin           #+#    #+#             */
-/*   Updated: 2024/03/18 20:57:22 by tburtin          ###   ########.fr       */
+/*   Updated: 2024/03/19 00:22:52 by transfo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,37 +18,32 @@ t_data *ft_newcmd(t_token *current)
 	t_data *new = (t_data *)malloc(sizeof(t_data));
 	int static position = 0;
 	char static  *last_outfile = NULL;
-	int flag;
 	t_len len;
 
 	new->next = NULL;
 	new->prev = NULL;
 	
-	flag = len_all_tab(current, &len, position);
-	allocation_tab(len, new);
-	if(flag == 1 || flag == 3)
-		algo_outfile(current, new);
-	if(flag == 2 || flag == 3)
-		algo_infile(new, position, last_outfile);
+	len_all_tab(current, &len, position);
+	allocation_tab(len, new, position, current, last_outfile);
 	input_all_tab(current, new);
 	last_outfile = find_last_outfile(new->outfile);
+	
 	position++;
-	int flag3 = 0;	
+	int flag = 0;	
 	while(current != NULL)
 	{
 		if(current->type == commande)
-			flag3++;
+			flag++;
 		current = current->next;
 	}
-	if(flag3 < 2)
+	if(flag < 2)
 		position = 0;
 	return (new);
 }
 
 
-int len_all_tab(t_token *current, t_len *len, int position)
+void len_all_tab(t_token *current, t_len *len, int position)
 {
-	int flag = 0;
 	init_compteurs(len);
 	
 	while(current != NULL && current->type != pip)
@@ -71,19 +66,6 @@ int len_all_tab(t_token *current, t_len *len, int position)
 		}
 		current = current->next;
 	}
-	if(len->compteur_outfile == 0)
-	{
-		len->compteur_outfile++;
-		flag = 1;
-	}
-	if((position == 0 && len->compteur_infile == 0) || (position != 0))
-	{
-		if(flag = 1)
-			return (3);
-		return(2);
-		len->compteur_infile++;
-	}
-	return(flag);
 }
 
 

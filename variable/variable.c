@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   variable.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tburtin <tburtin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: transfo <transfo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 13:47:37 by transfo           #+#    #+#             */
-/*   Updated: 2024/03/18 20:49:43 by tburtin          ###   ########.fr       */
+/*   Updated: 2024/03/19 00:33:21 by transfo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int variable(t_programme *programme)
     t_data *liste_data = *programme->liste_data;
     int index;
 
-    if(ft_strchr(liste_data->cmd_arg[0], '=') == 0)
+    if(liste_data->cmd_arg[0] == NULL || ft_strchr(liste_data->cmd_arg[0], '=') == 0)
         return(1);
     
     index = check_ifonly_var(liste_data->cmd_arg);
@@ -44,7 +44,6 @@ int check_ifonly_var(char **cmd_arg)
     }
     return(-1);
 }
-
 
 
 void remplir_liste_var(char **cmd_arg, t_programme *programme)

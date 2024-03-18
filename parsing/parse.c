@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tburtin <tburtin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: transfo <transfo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 11:18:00 by transfo           #+#    #+#             */
-/*   Updated: 2024/03/18 20:50:38 by tburtin          ###   ########.fr       */
+/*   Updated: 2024/03/19 00:52:32 by transfo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,18 +105,13 @@ void add_data(t_data **liste_data, t_token **liste_token)
 {
     t_data *new;
     t_token *current = *liste_token;
-    int flag = 1;
 
     while(current != NULL)
     {
-        if(current->type == pip)
+        if(current->prev == NULL || current->type == pip)
         {
-            flag = 1;
-            current = current->next;
-        }
-        if(flag == 1)
-        {
-            flag = 0;
+            if(current->type == pip)
+                current = current->next;
             new = ft_newcmd(current);
             add_back_fronts(liste_data, new);
         }

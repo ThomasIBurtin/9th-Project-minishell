@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tburtin <tburtin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: transfo <transfo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 19:31:57 by transfo           #+#    #+#             */
-/*   Updated: 2024/03/18 20:55:40 by tburtin          ###   ########.fr       */
+/*   Updated: 2024/03/19 00:52:39 by transfo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,7 @@ void add_data(t_data **liste_data, t_token **liste_token);
     t_data *ft_newcmd(t_token *current);
     void add_back_fronts(t_data **liste_data, t_data *new);
     void input_all_tab(t_token *current, t_data *new);
-    int len_all_tab(t_token *current, t_len *len, int position);
+    void len_all_tab(t_token *current, t_len *len, int position);
     
         // utils_data
         void algo_outfile(t_token *current, t_data *new);
@@ -124,7 +124,7 @@ void add_data(t_data **liste_data, t_token **liste_token);
         char *find_last_outfile(char **tab);
         int remplir_data(char *str, char **tab, int compteur);
         void init_compteurs(t_len *len);
-        void allocation_tab(t_len len, t_data *new);
+        void allocation_tab(t_len len, t_data *new, int position, t_token *current, char *last_outfile);
 
 // variable
 int variable(t_programme *programme);
