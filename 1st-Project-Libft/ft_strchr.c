@@ -6,7 +6,7 @@
 /*   By: transfo <transfo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 12:09:36 by transfo           #+#    #+#             */
-/*   Updated: 2024/03/15 12:13:01 by transfo          ###   ########.fr       */
+/*   Updated: 2024/03/18 10:52:06 by transfo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,19 +29,6 @@ int ft_strchr(char *s, char c)
 			return (1);
 		}
 		i++;
-	}
-	return (0);
-}
-
-int ft_strnchr(char *s, char c, int start)
-{
-	if (!s[start])
-		return (0);
-	while (s[start])
-	{
-		if (s[start] == c)
-			return (1);
-		start++;
 	}
 	return (0);
 }

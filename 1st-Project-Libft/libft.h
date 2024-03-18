@@ -6,7 +6,7 @@
 /*   By: transfo <transfo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/04 13:49:38 by tburtin           #+#    #+#             */
-/*   Updated: 2024/03/15 12:13:10 by transfo          ###   ########.fr       */
+/*   Updated: 2024/03/18 10:52:15 by transfo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,5 @@ void	ft_putendl_fd(char *s, int fd);
 char	**ft_split(char const *str, char c);
 void	*free_tab(char **tab);
 int     compare(char *str, char *strr);
-int     ft_strlen_modife(char *str);
-int     ft_strnchr(char *s, char c, int start);
 
 #endif
