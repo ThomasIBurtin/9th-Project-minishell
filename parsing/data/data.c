@@ -6,7 +6,7 @@
 /*   By: transfo <transfo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 10:55:53 by tburtin           #+#    #+#             */
-/*   Updated: 2024/03/19 13:33:54 by transfo          ###   ########.fr       */
+/*   Updated: 2024/03/19 18:09:54 by transfo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,7 @@ t_data *ft_newcmd(t_token *current)
 	allocation_tab(len, new, position, current, last_outfile);
 	input_all_tab(current, new);
 	last_outfile = find_last_outfile(new->outfile);
-	check_position(current, position);
-	position++;
+	check_position(current, &position);
 	return (new);
 }
 

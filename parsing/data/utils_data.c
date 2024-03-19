@@ -6,7 +6,7 @@
 /*   By: transfo <transfo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 19:11:10 by tburtin           #+#    #+#             */
-/*   Updated: 2024/03/19 13:32:53 by transfo          ###   ########.fr       */
+/*   Updated: 2024/03/19 18:10:07 by transfo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ void check_position(t_token *current, int *position)
 {
 	int flag = 0;	
 	
+	*position+=1;
 	while(current != NULL)
 	{
 		if(current->type == commande)
@@ -70,7 +71,7 @@ void check_position(t_token *current, int *position)
 		current = current->next;
 	}
 	if(flag < 2)
-		position = 0;
+		*position = 0;
 }
 
 
