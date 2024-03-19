@@ -6,7 +6,7 @@
 /*   By: transfo <transfo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 19:31:57 by transfo           #+#    #+#             */
-/*   Updated: 2024/03/19 10:28:43 by transfo          ###   ########.fr       */
+/*   Updated: 2024/03/19 13:34:20 by transfo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ typedef enum s_type
 {
     commande,
     argument,
-    trunc,
+    outfile,
     append,
     infile,
     pip,
@@ -101,13 +101,14 @@ void add_data(t_data **liste_data, t_token **liste_token);
 
     // token
     t_token	*ft_newtoken(char *str, t_variable *liste_variable);
+    void create_commande(t_token *new, char *str, t_variable *liste_variable);
     void add_back_front(t_token **liste_token, t_token *new);
     t_type get_type_arg(t_token **liste_token);
     int modife_liste(t_token *current, t_type type, t_token **liste_token);
     
         // utils_token
+        char *find_value(t_variable *liste_variable, char *cle);
         void len_commande(char *str, t_variable *liste_variable, t_token *new);
-        void create_commande(t_token *new, char *str, t_variable *liste_variable);
         int len_var(char *str, int *i, t_variable *liste_variable);
         void input_var(t_token *new, char *str, t_variable *liste_variable, int *i, int *j);
         char *extracte_cle(char *str, int *i);
@@ -115,6 +116,7 @@ void add_data(t_data **liste_data, t_token **liste_token);
     // data
     t_data *ft_newcmd(t_token *current);
     void add_back_fronts(t_data **liste_data, t_data *new);
+    void allocation_tab(t_len len, t_data *new, int position, t_token *current, char *last_outfile);
     void input_all_tab(t_token *current, t_data *new);
     void len_all_tab(t_token *current, t_len *len, int position);
     
@@ -123,8 +125,8 @@ void add_data(t_data **liste_data, t_token **liste_token);
         void algo_infile(t_data *new, int position, char *last_outfile);
         char *find_last_outfile(char **tab);
         int remplir_data(char *str, char **tab, int compteur);
+        void check_position(t_token *current, int *position);
         void init_compteurs(t_len *len);
-        void allocation_tab(t_len len, t_data *new, int position, t_token *current, char *last_outfile);
 
 // variable
 int variable(t_programme *programme);

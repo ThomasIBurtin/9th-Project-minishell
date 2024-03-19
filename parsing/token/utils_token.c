@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_token.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tburtin <tburtin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: transfo <transfo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 21:53:15 by transfo           #+#    #+#             */
-/*   Updated: 2024/03/18 20:53:17 by tburtin          ###   ########.fr       */
+/*   Updated: 2024/03/19 13:26:09 by transfo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,38 +44,9 @@ void len_commande(char *str, t_variable *liste_variable, t_token *new)
 }
 
 
-void create_commande(t_token *new, char *str, t_variable *liste_variable)
-{
-	int i = 0;
-	int j = 0;
-	
-	while(str[i])
-	{
-		if(str[i] == 34)
-		{
-			i++;
-			while(str[i] != 34)
-				input_var(new, str, liste_variable, &i, &j);
-			i++;
-		}
-		else if(str[i] == 39)
-		{
-			i++;
-			while(str[i] != 39)
-				new->str[j++] = str[i++];
-			i++;
-		}
-		else
-			input_var(new, str, liste_variable, &i, &j);
-	}
-	new->str[j] = '\0';
-}
-
-
 int len_var(char *str, int *i, t_variable *liste_variable)
 {
 	int len = 0;
-	char *strr;
 
 	if(str[*i] == '$' && (str[*i+1] == ' ' || str[*i+1] == 34 || str[*i+1] == 39))
 	{
@@ -85,20 +56,13 @@ int len_var(char *str, int *i, t_variable *liste_variable)
 	else if(str[*i] == '$')
 	{
 		*i+=1;
-		strr = extracte_cle(str, i);
-		const char *value = getenv(strr);
-		if(value != NULL)
-			len += ft_strlen(value);
-		else
-		{
-			while(liste_variable)
-			{
-				if(compare(liste_variable->cle, strr) == 1)
-					len += ft_strlen(liste_variable->valeur);
-				liste_variable = liste_variable->next;
-			}
-		}
-		//free(strr);
+		char *cle = extracte_cle(str, i);
+		char *env_value = getenv(cle);
+		char *variable_value = find_value(liste_variable, cle);
+		if(env_value != NULL)
+			len += ft_strlen(env_value);
+		else if(variable_value != NULL)
+			len+=ft_strlen(variable_value);
 	}
 	else
 	{
@@ -111,34 +75,25 @@ int len_var(char *str, int *i, t_variable *liste_variable)
 
 void input_var(t_token *new, char *str, t_variable *liste_variable, int *i, int *j)
 {
-	char *strr;
-	
 	if(str[*i] == '$' && (str[*i+1] == ' ' || str[*i+1] == 34 || str[*i+1] == 39 || str[*i+1] == '\0'))
 		new->str[(*j)++] = str[(*i)++];
 	else if(str[*i] == '$')
 	{
 		int k = 0;
 		*i+=1;
-		strr = extracte_cle(str, i);
-		const char *value = getenv(strr);
-		if(value != NULL)
+		char *cle = extracte_cle(str, i);
+		char *env_value = getenv(cle);
+		char *variable_value = find_value(liste_variable, cle);
+		if(env_value != NULL)
 		{
-			while(value[k])
-			new->str[(*j)++] = value[k++];
+			while(env_value[k])
+				new->str[(*j)++] = env_value[k++];
 		}
-		else
+		else if(variable_value != NULL)
 		{
-			while(liste_variable)
-			{
-				if(compare(liste_variable->cle, strr) == 1)
-				{
-					while(liste_variable->valeur[k])
-					new->str[(*j)++] = liste_variable->valeur[k++];	
-				}
-				liste_variable = liste_variable->next;
-			}
+			while(variable_value[k])
+				new->str[(*j)++] = variable_value[k++];
 		}
-		//free(strr);
 	}
 	else
 		new->str[(*j)++] = str[(*i)++];	
@@ -161,4 +116,16 @@ char *extracte_cle(char *str, int *i)
 		result[j++] = str[save++];
 	result[j] = '\0';
 	return(result);
+}
+
+
+char *find_value(t_variable *liste_variable, char *cle)
+{
+	while(liste_variable)
+	{
+		if(compare(liste_variable->cle, cle) == 1)
+			return(liste_variable->valeur);
+		liste_variable = liste_variable->next;
+	}
+	return(NULL);
 }

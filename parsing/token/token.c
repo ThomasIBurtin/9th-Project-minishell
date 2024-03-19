@@ -6,7 +6,7 @@
 /*   By: transfo <transfo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 12:16:39 by tburtin           #+#    #+#             */
-/*   Updated: 2024/03/19 10:34:10 by transfo          ###   ########.fr       */
+/*   Updated: 2024/03/19 13:23:36 by transfo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,34 @@ t_token	*ft_newtoken(char *str, t_variable *liste_variable)
 	new->next = NULL;
 	new->prev = NULL;
 	return(new);
+}
+
+
+void create_commande(t_token *new, char *str, t_variable *liste_variable)
+{
+	int i = 0;
+	int j = 0;
+	
+	while(str[i])
+	{
+		if(str[i] == 34)
+		{
+			i++;
+			while(str[i] != 34)
+				input_var(new, str, liste_variable, &i, &j);
+			i++;
+		}
+		else if(str[i] == 39)
+		{
+			i++;
+			while(str[i] != 39)
+				new->str[j++] = str[i++];
+			i++;
+		}
+		else
+			input_var(new, str, liste_variable, &i, &j);
+	}
+	new->str[j] = '\0';
 }
 
 
@@ -58,7 +86,7 @@ t_type get_type_arg(t_token **liste_token)
 			if(temp->str[0] == '>' && temp->str[1] == '>')
 				i = modife_liste(temp, append, liste_token);
 			else if(temp->str[0] == '>')
-				i = modife_liste(temp, trunc, liste_token);
+				i = modife_liste(temp, outfile, liste_token);
 			else if(temp->str[0] == '<' && temp->str[1] == '<')
 				i = modife_liste(temp, here_doc,liste_token);
 			else if(temp->str[0] == '<')
