@@ -6,7 +6,7 @@
 /*   By: transfo <transfo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 19:31:57 by transfo           #+#    #+#             */
-/*   Updated: 2024/03/19 00:52:39 by transfo          ###   ########.fr       */
+/*   Updated: 2024/03/19 10:28:43 by transfo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ void free_t_variable(t_variable *variable);
 // parsing
 int parse(t_programme *programme);
 int check_quotes(char *str);
-char *add_space_redirection(char *str);
+char *add_space(char *str);
 int get_tokens(t_token **liste_token, char **args, t_variable *liste_variable);
 void add_data(t_data **liste_data, t_token **liste_token);
 

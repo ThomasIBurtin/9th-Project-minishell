@@ -6,7 +6,7 @@
 /*   By: transfo <transfo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 11:18:00 by transfo           #+#    #+#             */
-/*   Updated: 2024/03/19 00:52:32 by transfo          ###   ########.fr       */
+/*   Updated: 2024/03/19 10:28:53 by transfo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int check_quotes(char *str)
 }
 
 
-char *add_space_redirection(char *str)
+char *add_space(char *str)
 {
     int i = 0;
     int j = 0;
@@ -53,7 +53,7 @@ char *add_space_redirection(char *str)
             count += 2;
             i++;
         } 
-        else if (str[i] == '<' || str[i] == '>')
+        else if (str[i] == '<' || str[i] == '>' || str[i] == '|')
             count += 2;
         i++;
     }
@@ -68,7 +68,7 @@ char *add_space_redirection(char *str)
             result[j++] = str[i];
             result[j++] = ' ';
         }
-        else if (str[i] == '<' || str[i] == '>')
+        else if (str[i] == '<' || str[i] == '>' || str[i] == '|')
         {
             result[j++] = ' ';
             result[j++] = str[i];
@@ -80,7 +80,7 @@ char *add_space_redirection(char *str)
     }
     result[j] = '\0';
     free(str);
-    return result;
+    return (result);
 }
 
 
@@ -126,7 +126,7 @@ int parse(t_programme *programme)
         return(0);
     if(check_quotes(programme->args) == 0)
         return(0);
-    programme->args = add_space_redirection(programme->args);
+    programme->args = add_space(programme->args);
     programme->split_args = (char *const *)ft_split(programme->args, ' ');
     if(get_tokens(programme->liste_token, (char **)programme->split_args, *programme->liste_variable) == 0)
         return(0);

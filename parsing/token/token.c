@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tburtin <tburtin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: transfo <transfo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 12:16:39 by tburtin           #+#    #+#             */
-/*   Updated: 2024/03/18 20:54:09 by tburtin          ###   ########.fr       */
+/*   Updated: 2024/03/19 10:34:10 by transfo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,12 @@ t_type get_type_arg(t_token **liste_token)
 				i = modife_liste(temp, here_doc,liste_token);
 			else if(temp->str[0] == '<')
 				i = modife_liste(temp, infile, liste_token);
-			else if (temp->str[0] == '|' && temp->str[1] == '\0')
+			else if (temp->str[0] == '|')
+			{
+				if(temp->next == NULL || temp->prev == NULL)
+					return(0);
 				temp->type = pip;
+			}
 			else if (temp->prev == NULL || temp->prev->type != argument)
 				temp->type = commande;
 			else
@@ -83,7 +87,7 @@ int modife_liste(t_token *current, t_type type, t_token **liste_token)
 	t_token *temp = current;
 	temp = current;
 
-	if(current->next == NULL || current->next->str[0] == '>' || current->next->str[0] == '<')
+	if(current->next == NULL || current->next->str[0] == '>' || current->next->str[0] == '<' || current->next->str[0] == '|')
 		return(0);
 	else if(current->prev == NULL)
 	{
