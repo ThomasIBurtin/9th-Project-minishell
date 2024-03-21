@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   utils_variable.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: transfo <transfo@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tburtin <tburtin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 16:36:02 by transfo           #+#    #+#             */
-/*   Updated: 2024/03/15 12:28:56 by transfo          ###   ########.fr       */
+/*   Updated: 2024/03/21 14:27:12 by tburtin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
 
-int check_if_exsite(char *str, t_variable *liste_variable, int len_cle)
+int check_if_exsite(char *str, t_liste *liste_variable, int len_cle)
 {
     int i = 0;
     char cle[len_cle];
@@ -36,7 +36,7 @@ int check_if_exsite(char *str, t_variable *liste_variable, int len_cle)
 }
 
 
-void replace_value(int index, t_variable *liste_variable, int len_valeur, char *str)
+void replace_value(int index, t_liste *liste_variable, int len_valeur, char *str)
 {
     int i = 0;
     int j = 0;
@@ -58,18 +58,18 @@ void replace_value(int index, t_variable *liste_variable, int len_valeur, char *
 }
 
 
-void add_back_frontss(t_variable **liste_variable, t_variable *new)
+void add_back_frontss(t_liste **liste, t_liste *new)
 {
-    t_variable *current;
+    t_liste *current;
 
-    if (*liste_variable == NULL)
+    if (*liste == NULL)
 	{
-    	*liste_variable = new;
-		(*liste_variable)->next = NULL;
+    	*liste = new;
+		(*liste)->next = NULL;
 	}
     else
     {
-        current = *liste_variable;
+        current = *liste;
         while (current->next != NULL)
         	current = current->next;
         
@@ -78,11 +78,11 @@ void add_back_frontss(t_variable **liste_variable, t_variable *new)
 }
 
 
-t_variable		*new_variable(char *str, int len_cle, int len_valeur)
+t_liste		*new_variable(char *str, int len_cle, int len_valeur)
 {
 	int i = 0;
     int j = 0;
-	t_variable	*new = (t_variable *)malloc(sizeof(t_variable));
+	t_liste	*new = (t_liste *)malloc(sizeof(t_liste));
     new->cle = (char *)malloc(sizeof(char) * len_cle + 1);
     new->valeur = (char *)malloc(sizeof(char) * len_valeur + 1);
 	

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: transfo <transfo@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tburtin <tburtin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 11:18:00 by transfo           #+#    #+#             */
-/*   Updated: 2024/03/19 10:28:53 by transfo          ###   ########.fr       */
+/*   Updated: 2024/03/21 14:38:50 by tburtin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,18 +84,18 @@ char *add_space(char *str)
 }
 
 
-int get_tokens(t_token **liste_token, char **args, t_variable *liste_variable)
+int get_tokens(char **args, t_programme *programme)
 {
 	int i = 0;
 	t_token *new;
 
 	while(args[i] != NULL)
 	{
-		new = ft_newtoken(args[i], liste_variable);
-		add_back_front(liste_token, new);
+		new = ft_newtoken(args[i], programme);
+		add_back_front(programme->liste_token, new);
 		i++;
 	}
-    if(get_type_arg(liste_token) == 0)
+    if(get_type_arg(programme->liste_token) == 0)
         return(0);
     return(1);
 }
@@ -128,7 +128,7 @@ int parse(t_programme *programme)
         return(0);
     programme->args = add_space(programme->args);
     programme->split_args = (char *const *)ft_split(programme->args, ' ');
-    if(get_tokens(programme->liste_token, (char **)programme->split_args, *programme->liste_variable) == 0)
+    if(get_tokens((char **)programme->split_args, programme) == 0)
         return(0);
     add_data(programme->liste_data, programme->liste_token);
     return(1);

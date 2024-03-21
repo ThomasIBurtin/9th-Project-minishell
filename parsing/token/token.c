@@ -3,21 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   token.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: transfo <transfo@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tburtin <tburtin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 12:16:39 by tburtin           #+#    #+#             */
-/*   Updated: 2024/03/19 13:23:36 by transfo          ###   ########.fr       */
+/*   Updated: 2024/03/21 14:56:13 by tburtin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
 
-t_token	*ft_newtoken(char *str, t_variable *liste_variable)
+t_token	*ft_newtoken(char *str, t_programme *programme)
 {
 	t_token	*new = (t_token *)malloc(sizeof(t_token));
-	len_commande(str, liste_variable, new);
-	create_commande(new, str, liste_variable);
+	create_commande(new, str, programme);
 	new->type = none;
 	new->next = NULL;
 	new->prev = NULL;
@@ -25,18 +24,20 @@ t_token	*ft_newtoken(char *str, t_variable *liste_variable)
 }
 
 
-void create_commande(t_token *new, char *str, t_variable *liste_variable)
+void create_commande(t_token *new, char *str, t_programme *programme)
 {
 	int i = 0;
 	int j = 0;
 	
+
+	new->str = (char *)malloc(sizeof(char) * (len_commande(str, programme) + 1));
 	while(str[i])
 	{
 		if(str[i] == 34)
 		{
 			i++;
 			while(str[i] != 34)
-				input_var(new, str, liste_variable, &i, &j);
+				input_var(new, str, programme, &i, &j);
 			i++;
 		}
 		else if(str[i] == 39)
@@ -47,7 +48,7 @@ void create_commande(t_token *new, char *str, t_variable *liste_variable)
 			i++;
 		}
 		else
-			input_var(new, str, liste_variable, &i, &j);
+			input_var(new, str, programme, &i, &j);
 	}
 	new->str[j] = '\0';
 }

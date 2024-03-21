@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   utils_token.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: transfo <transfo@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tburtin <tburtin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 21:53:15 by transfo           #+#    #+#             */
-/*   Updated: 2024/03/19 13:26:09 by transfo          ###   ########.fr       */
+/*   Updated: 2024/03/21 14:55:43 by tburtin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
 
-void len_commande(char *str, t_variable *liste_variable, t_token *new)
+int len_commande(char *str, t_programme *programme)
 {
 	int i = 0;
 	int len = 0;
@@ -24,7 +24,7 @@ void len_commande(char *str, t_variable *liste_variable, t_token *new)
 		{
 			i++;
 			while(str[i] != 34)
-				len += len_var(str, &i, liste_variable);
+				len += len_var(str, &i, programme);
 			i++;
 		}
 		else if(str[i] == 39)
@@ -38,13 +38,13 @@ void len_commande(char *str, t_variable *liste_variable, t_token *new)
 			i++;
 		}
 		else
-			len += len_var(str, &i, liste_variable);
+			len += len_var(str, &i, programme);
 	}
-	new->str = (char *)malloc(sizeof(char) * len + 1);
+	return(len);
 }
 
 
-int len_var(char *str, int *i, t_variable *liste_variable)
+int len_var(char *str, int *i, t_programme *programme)
 {
 	int len = 0;
 
@@ -57,12 +57,13 @@ int len_var(char *str, int *i, t_variable *liste_variable)
 	{
 		*i+=1;
 		char *cle = extracte_cle(str, i);
-		char *env_value = getenv(cle);
-		char *variable_value = find_value(liste_variable, cle);
+		char *env_value = find_value(*programme->liste_env, cle);
+		char *variable_value = find_value(*programme->liste_variable, cle);
 		if(env_value != NULL)
 			len += ft_strlen(env_value);
 		else if(variable_value != NULL)
 			len+=ft_strlen(variable_value);
+		free(cle);
 	}
 	else
 	{
@@ -73,7 +74,7 @@ int len_var(char *str, int *i, t_variable *liste_variable)
 }
 
 
-void input_var(t_token *new, char *str, t_variable *liste_variable, int *i, int *j)
+void input_var(t_token *new, char *str, t_programme *programme, int *i, int *j)
 {
 	if(str[*i] == '$' && (str[*i+1] == ' ' || str[*i+1] == 34 || str[*i+1] == 39 || str[*i+1] == '\0'))
 		new->str[(*j)++] = str[(*i)++];
@@ -82,8 +83,8 @@ void input_var(t_token *new, char *str, t_variable *liste_variable, int *i, int 
 		int k = 0;
 		*i+=1;
 		char *cle = extracte_cle(str, i);
-		char *env_value = getenv(cle);
-		char *variable_value = find_value(liste_variable, cle);
+		char *env_value = find_value(*programme->liste_env, cle);
+		char *variable_value = find_value(*programme->liste_variable, cle);
 		if(env_value != NULL)
 		{
 			while(env_value[k])
@@ -94,6 +95,7 @@ void input_var(t_token *new, char *str, t_variable *liste_variable, int *i, int 
 			while(variable_value[k])
 				new->str[(*j)++] = variable_value[k++];
 		}
+		free(cle);
 	}
 	else
 		new->str[(*j)++] = str[(*i)++];	
@@ -119,13 +121,13 @@ char *extracte_cle(char *str, int *i)
 }
 
 
-char *find_value(t_variable *liste_variable, char *cle)
+char *find_value(t_liste *liste, char *cle)
 {
-	while(liste_variable)
+	while(liste)
 	{
-		if(compare(liste_variable->cle, cle) == 1)
-			return(liste_variable->valeur);
-		liste_variable = liste_variable->next;
+		if(compare(liste->cle, cle) == 1)
+			return(liste->valeur);
+		liste = liste->next;
 	}
 	return(NULL);
 }

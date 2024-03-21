@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: transfo <transfo@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tburtin <tburtin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 19:31:27 by transfo           #+#    #+#             */
-/*   Updated: 2024/03/13 14:37:24 by transfo          ###   ########.fr       */
+/*   Updated: 2024/03/21 14:34:02 by tburtin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void test(t_programme *programme)
 {
 	t_data *temp = *programme->liste_data;
-    t_variable *temps = *programme->liste_variable;
+    t_liste *temps = *programme->liste_variable;
     int i = 0;
     int j = 0;
     int k = 0;

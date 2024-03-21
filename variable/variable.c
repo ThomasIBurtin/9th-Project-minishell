@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   variable.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: transfo <transfo@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tburtin <tburtin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 13:47:37 by transfo           #+#    #+#             */
-/*   Updated: 2024/03/19 00:33:21 by transfo          ###   ########.fr       */
+/*   Updated: 2024/03/21 14:32:23 by tburtin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
 
-int variable(t_programme *programme)
+int variable_env(t_programme *programme)
 {
     t_data *liste_data = *programme->liste_data;
     int index;
@@ -23,12 +23,12 @@ int variable(t_programme *programme)
     
     index = check_ifonly_var(liste_data->cmd_arg);
     if(index == -1)
-        remplir_liste_var(liste_data->cmd_arg, programme);
+        remplir_liste(liste_data->cmd_arg, programme->liste_variable);
     else
-        {
-            liste_data->cmd_arg = replace_commande(liste_data->cmd_arg, index);
-            return(1);
-        }
+    {
+        liste_data->cmd_arg = replace_commande(liste_data->cmd_arg, index);
+        return(1);
+    }
     return(0);   
 }
 
@@ -46,32 +46,33 @@ int check_ifonly_var(char **cmd_arg)
 }
 
 
-void remplir_liste_var(char **cmd_arg, t_programme *programme)
+void remplir_liste(char **tab, t_liste **liste)
 {
-    t_variable *new;
+    
+    t_liste *current = *liste;
+    t_liste *new;
     int i = 0;
     int j;
     int len_cle;
     int len_valeur;
     int index;
 
-    while(cmd_arg[i])
+    while(tab[i])
     {
         j = 0;
         len_cle = 0;
         len_valeur = 0;
-        while(cmd_arg[i][j++] != '=')
+        while(tab[i][j++] != '=')
             len_cle++;
-        j++;
-        while(cmd_arg[i][j++])
+        while(tab[i][j++])
             len_valeur++;
-        index = check_if_exsite(cmd_arg[i], *programme->liste_variable, len_cle);
+        index = check_if_exsite(tab[i], current, len_cle);
         if(index != -1)
-            replace_value(index, *programme->liste_variable, len_valeur, cmd_arg[i]);
+            replace_value(index, current, len_valeur, tab[i]);
         else
         {
-            new = new_variable(cmd_arg[i], len_cle, len_valeur);
-            add_back_frontss(programme->liste_variable, new);
+            new = new_variable(tab[i], len_cle, len_valeur);
+            add_back_frontss(liste, new);
         }
         i++;
     }
