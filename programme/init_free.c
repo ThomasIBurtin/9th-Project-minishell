@@ -6,7 +6,7 @@
 /*   By: tburtin <tburtin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 09:40:23 by transfo           #+#    #+#             */
-/*   Updated: 2024/03/21 14:25:05 by tburtin          ###   ########.fr       */
+/*   Updated: 2024/03/21 15:04:23 by tburtin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,10 @@ void init_programme(t_programme *programme, char **envp)
 void free_programme(t_programme *programme)
 {
     if (*programme->liste_variable != NULL)
-        free_t_variable_env(*programme->liste_variable);
+        free_t_liste(*programme->liste_variable);
     free(programme->liste_variable);
 
-    free_t_variable_env(*programme->liste_env);
+    free_t_liste(*programme->liste_env);
     free(programme->liste_env);
 }
 

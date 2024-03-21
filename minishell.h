@@ -6,7 +6,7 @@
 /*   By: tburtin <tburtin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 19:31:57 by transfo           #+#    #+#             */
-/*   Updated: 2024/03/21 14:55:32 by tburtin          ###   ########.fr       */
+/*   Updated: 2024/03/21 15:24:41 by tburtin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ typedef struct s_len
     int compteur_append;
     int compteur_infile;
     int compteur_heredoc;
+    int flag1;
+    int flag2;
 }                   t_len;
 
 
@@ -94,14 +96,14 @@ void free_data(t_programme *programme);
     //utils_init_free
     void free_t_token(t_token *token);
     void free_t_data(t_data *data);
-    void free_t_variable_env(t_liste *var);
+    void free_t_liste(t_liste *var);
     
 // parsing
 int parse(t_programme *programme);
 int check_quotes(char *str);
 char *add_space(char *str);
 int get_tokens(char **args, t_programme *programme);
-void add_data(t_data **liste_data, t_token **liste_token);
+void add_data(t_data **liste_data, t_token *liste_token);
 
     // token
     t_token	*ft_newtoken(char *str, t_programme *programme);
@@ -117,21 +119,21 @@ void add_data(t_data **liste_data, t_token **liste_token);
         char *extracte_cle(char *str, int *i);
 
     // data
-    t_data *ft_newcmd(t_token *current);
+    t_data *ft_newcmd(t_token *liste_token);
     void add_back_fronts(t_data **liste_data, t_data *new);
-    void allocation_tab(t_len len, t_data *new, int position, t_token *current, char *last_outfile);
-    void input_all_tab(t_token *current, t_data *new);
-    void len_all_tab(t_token *current, t_len *len, int position);
+    void allocation_tab(t_len len, t_data *new);
+    void input_all_tab(t_token *liste_token, t_data *new);
+    void len_all_tab(t_token *liste_token, t_len *len, int position);
         // utils_data
-        void algo_outfile(t_token *current, t_data *new);
+        void algo_outfile(t_token *liste_token, t_data *new);
         void algo_infile(t_data *new, int position, char *last_outfile);
         char *find_last_outfile(char **tab);
         int remplir_data(char *str, char **tab, int compteur);
-        void check_position(t_token *current, int *position);
+        void check_position(t_token *liste_token, int *position);
         void init_compteurs(t_len *len);
 
 // variable
-int variable_env(t_programme *programme);
+int variable(t_programme *programme);
 int check_ifonly_var(char **cmd_arg);
 void remplir_liste(char **tab, t_liste **liste);
 char **replace_commande(char **cmd_arg, int index);
@@ -139,7 +141,7 @@ char **replace_commande(char **cmd_arg, int index);
         void replace_value(int index, t_liste *liste_variable, int len_valeur, char *str);
         int check_if_exsite(char *str, t_liste *liste_variable, int len_cle);
         void add_back_frontss(t_liste **liste, t_liste *new);
-        t_liste *new_variable(char *str, int len_cle, int len_valeur);
+        t_liste *new_element(char *str, int len_cle, int len_valeur);
 
 // execution
 void test(t_programme *programme);

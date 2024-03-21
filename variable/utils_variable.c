@@ -6,7 +6,7 @@
 /*   By: tburtin <tburtin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 16:36:02 by transfo           #+#    #+#             */
-/*   Updated: 2024/03/21 14:27:12 by tburtin          ###   ########.fr       */
+/*   Updated: 2024/03/21 15:02:09 by tburtin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ void add_back_frontss(t_liste **liste, t_liste *new)
 }
 
 
-t_liste		*new_variable(char *str, int len_cle, int len_valeur)
+t_liste		*new_element(char *str, int len_cle, int len_valeur)
 {
 	int i = 0;
     int j = 0;

@@ -3,26 +3,26 @@
 /*                                                        :::      ::::::::   */
 /*   utils_data.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: transfo <transfo@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tburtin <tburtin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 19:11:10 by tburtin           #+#    #+#             */
-/*   Updated: 2024/03/19 18:10:07 by transfo          ###   ########.fr       */
+/*   Updated: 2024/03/21 15:17:11 by tburtin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
 
-void algo_outfile(t_token *current, t_data *new)
+void algo_outfile(t_token *liste_token, t_data *new)
 {
-	while(current != NULL)
+	while(liste_token != NULL)
 	{
-		if(current->type == pip)
+		if(liste_token->type == pip)
 		{
 			new->outfile[0] = ft_strdup("fd[1]");
 			return;
 		}
-		current = current->next;
+		liste_token = liste_token->next;
 	}
 	new->outfile[0] = ft_strdup("stdout");
 }
@@ -59,16 +59,16 @@ int remplir_data(char *str, char **tab, int compteur)
 }
 
 
-void check_position(t_token *current, int *position)
+void check_position(t_token *liste_token, int *position)
 {
 	int flag = 0;	
 	
 	*position+=1;
-	while(current != NULL)
+	while(liste_token != NULL)
 	{
-		if(current->type == commande)
+		if(liste_token->type == commande)
 			flag++;
-		current = current->next;
+		liste_token = liste_token->next;
 	}
 	if(flag < 2)
 		*position = 0;
@@ -82,4 +82,6 @@ void init_compteurs(t_len *len)
 	len->compteur_outfile = 0;
 	len->compteur_heredoc = 0;
 	len->compteur_infile = 0;
+	len->flag1 = 0;
+	len->flag2 = 0;
 }

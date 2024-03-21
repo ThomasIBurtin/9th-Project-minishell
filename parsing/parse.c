@@ -6,7 +6,7 @@
 /*   By: tburtin <tburtin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 11:18:00 by transfo           #+#    #+#             */
-/*   Updated: 2024/03/21 14:38:50 by tburtin          ###   ########.fr       */
+/*   Updated: 2024/03/21 15:07:06 by tburtin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,21 +101,20 @@ int get_tokens(char **args, t_programme *programme)
 }
 
 
-void add_data(t_data **liste_data, t_token **liste_token)
+void add_data(t_data **liste_data, t_token *liste_token)
 {
     t_data *new;
-    t_token *current = *liste_token;
 
-    while(current != NULL)
+    while(liste_token != NULL)
     {
-        if(current->prev == NULL || current->type == pip)
+        if(liste_token->prev == NULL || liste_token->type == pip)
         {
-            if(current->type == pip)
-                current = current->next;
-            new = ft_newcmd(current);
+            if(liste_token->type == pip)
+                liste_token = liste_token->next;
+            new = ft_newcmd(liste_token);
             add_back_fronts(liste_data, new);
         }
-        current = current->next;
+        liste_token = liste_token->next;
     }
 }
 
@@ -130,6 +129,6 @@ int parse(t_programme *programme)
     programme->split_args = (char *const *)ft_split(programme->args, ' ');
     if(get_tokens((char **)programme->split_args, programme) == 0)
         return(0);
-    add_data(programme->liste_data, programme->liste_token);
+    add_data(programme->liste_data, *programme->liste_token);
     return(1);
 }

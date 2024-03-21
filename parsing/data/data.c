@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   data.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: transfo <transfo@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tburtin <tburtin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 10:55:53 by tburtin           #+#    #+#             */
-/*   Updated: 2024/03/19 18:09:54 by transfo          ###   ########.fr       */
+/*   Updated: 2024/03/21 15:25:04 by tburtin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
 
-t_data *ft_newcmd(t_token *current)
+t_data *ft_newcmd(t_token *liste_token)
 {
 	t_data *new = (t_data *)malloc(sizeof(t_data));
 	int static position = 0;
@@ -23,57 +23,60 @@ t_data *ft_newcmd(t_token *current)
 	new->next = NULL;
 	new->prev = NULL;
 	
-	len_all_tab(current, &len, position);
-	allocation_tab(len, new, position, current, last_outfile);
-	input_all_tab(current, new);
+	len_all_tab(liste_token, &len, position);
+	allocation_tab(len, new);
+	
+	if(len.flag1 == 1 )
+		algo_outfile(liste_token, new);
+	if(len.flag2 == 1)
+		algo_infile(new, position, last_outfile);
+		
+	input_all_tab(liste_token, new);
 	last_outfile = find_last_outfile(new->outfile);
-	check_position(current, &position);
+	check_position(liste_token, &position);
 	return (new);
 }
 
 
-void len_all_tab(t_token *current, t_len *len, int position)
+void len_all_tab(t_token *liste_token, t_len *len, int position)
 {
 	init_compteurs(len);
 	
-	while(current != NULL && current->type != pip)
+	while(liste_token != NULL && liste_token->type != pip)
 	{
-		if(current->type == commande || current->type == argument)
+		if(liste_token->type == commande || liste_token->type == argument)
 			len->compteur_commande++;
-		else if(current->type == outfile)
+		else if(liste_token->type == outfile)
 			len->compteur_outfile++;
-		else if(current->type == append)
+		else if(liste_token->type == append)
 		{
 			len->compteur_append++;
 			len->compteur_outfile++;
 		}
-		else if(current->type == infile)
+		else if(liste_token->type == infile)
 			len->compteur_infile++;
-		else if(current->type == here_doc)
+		else if(liste_token->type == here_doc)
 		{
 			len->compteur_infile++;
 			len->compteur_heredoc++;
 		}
-		current = current->next;
+		liste_token = liste_token->next;
+	}
+	if(len->compteur_outfile == 0)
+	{
+		len->compteur_outfile++;
+		len->flag1 = 1;
+	}
+	if((position == 0 && len->compteur_infile == 0) || (position != 0))
+	{
+		len->compteur_infile++;
+		len->flag2 = 1;
 	}
 }
 
 
-void allocation_tab(t_len len, t_data *new, int position, t_token *current, char *last_outfile)
+void allocation_tab(t_len len, t_data *new)
 {
-	int flag1 = 0;
-	int flag2 = 0;
-	if(len.compteur_outfile == 0)
-	{
-		len.compteur_outfile++;
-		flag1 = 1;
-	}
-	if((position == 0 && len.compteur_infile == 0) || (position != 0))
-	{
-		len.compteur_infile++;
-		flag2 = 1;
-	}
-	
 	new->cmd_arg = ft_calloc(sizeof(char **), len.compteur_commande + 1);;
 	new->outfile =  ft_calloc(sizeof(char **), len.compteur_append + len.compteur_outfile + 1);
 	new->outfile_append = ft_calloc(sizeof(char **), len.compteur_append + 1);
@@ -85,41 +88,36 @@ void allocation_tab(t_len len, t_data *new, int position, t_token *current, char
 	new->outfile_append[len.compteur_append] = NULL;
 	new->infile[len.compteur_heredoc + len.compteur_infile] = NULL;
 	new->here_doc[len.compteur_heredoc] = NULL;
-
-	if(flag1 == 1 )
-		algo_outfile(current, new);
-	if(flag2 == 1)
-		algo_infile(new, position, last_outfile);
 }
 
 
-void input_all_tab(t_token *current, t_data *new)
+void input_all_tab(t_token *liste_token, t_data *new)
 {
-	t_len len;
+	t_len len;		
 	init_compteurs(&len);
 
 	if((new->infile[0] != NULL) && (new->infile[0][0] >= 'a' && new->infile[0][0] <= 'z'))
 		len.compteur_infile++;
 
-	while(current != NULL && current->type != pip)
+	while(liste_token != NULL && liste_token->type != pip)
 	{	
-		if(current->type == commande || current->type == argument)
-			len.compteur_commande = remplir_data(current->str, new->cmd_arg, len.compteur_commande);
-		else if(current->type == append)
+		if(liste_token->type == commande || liste_token->type == argument)
+			len.compteur_commande = remplir_data(liste_token->str, new->cmd_arg, len.compteur_commande);
+		else if(liste_token->type == append)
 		{
-			len.compteur_append = remplir_data(current->str, new->outfile_append, len.compteur_append);
-			len.compteur_outfile = remplir_data(current->str, new->outfile, len.compteur_outfile);
+			len.compteur_append = remplir_data(liste_token->str, new->outfile_append, len.compteur_append);
+			len.compteur_outfile = remplir_data(liste_token->str, new->outfile, len.compteur_outfile);
 		}
-		else if(current->type == outfile)
-			len.compteur_outfile = remplir_data(current->str, new->outfile, len.compteur_outfile);
-		else if(current->type == here_doc)
+		else if(liste_token->type == outfile)
+			len.compteur_outfile = remplir_data(liste_token->str, new->outfile, len.compteur_outfile);
+		else if(liste_token->type == here_doc)
 		{
-			len.compteur_heredoc = remplir_data(current->str, new->here_doc, len.compteur_heredoc);
-			len.compteur_infile = remplir_data(current->str, new->infile, len.compteur_infile);
+			len.compteur_heredoc = remplir_data(liste_token->str, new->here_doc, len.compteur_heredoc);
+			len.compteur_infile = remplir_data(liste_token->str, new->infile, len.compteur_infile);
 		}
-		else if(current->type == infile)
-			len.compteur_infile = remplir_data(current->str, new->infile, len.compteur_infile);
-		current = current->next;
+		else if(liste_token->type == infile)
+			len.compteur_infile = remplir_data(liste_token->str, new->infile, len.compteur_infile);
+		liste_token = liste_token->next;
 	}
 }
 

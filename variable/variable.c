@@ -6,14 +6,14 @@
 /*   By: tburtin <tburtin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 13:47:37 by transfo           #+#    #+#             */
-/*   Updated: 2024/03/21 14:32:23 by tburtin          ###   ########.fr       */
+/*   Updated: 2024/03/21 15:01:57 by tburtin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
 
-int variable_env(t_programme *programme)
+int variable(t_programme *programme)
 {
     t_data *liste_data = *programme->liste_data;
     int index;
@@ -71,7 +71,7 @@ void remplir_liste(char **tab, t_liste **liste)
             replace_value(index, current, len_valeur, tab[i]);
         else
         {
-            new = new_variable(tab[i], len_cle, len_valeur);
+            new = new_element(tab[i], len_cle, len_valeur);
             add_back_frontss(liste, new);
         }
         i++;
