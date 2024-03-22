@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   variable.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tburtin <tburtin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: transfo <transfo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 13:47:37 by transfo           #+#    #+#             */
-/*   Updated: 2024/03/21 15:01:57 by tburtin          ###   ########.fr       */
+/*   Updated: 2024/03/22 12:13:55 by transfo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,6 @@ int check_ifonly_var(char **cmd_arg)
 
 void remplir_liste(char **tab, t_liste **liste)
 {
-    
-    t_liste *current = *liste;
     t_liste *new;
     int i = 0;
     int j;
@@ -66,9 +64,9 @@ void remplir_liste(char **tab, t_liste **liste)
             len_cle++;
         while(tab[i][j++])
             len_valeur++;
-        index = check_if_exsite(tab[i], current, len_cle);
+        index = check_if_exsite(tab[i], *liste, len_cle);
         if(index != -1)
-            replace_value(index, current, len_valeur, tab[i]);
+            replace_value(index, *liste, len_valeur, tab[i]);
         else
         {
             new = new_element(tab[i], len_cle, len_valeur);
@@ -82,22 +80,22 @@ void remplir_liste(char **tab, t_liste **liste)
 char **replace_commande(char **cmd_arg, int index)
 {
     int save = index;
+    int compteur = 0;
     int i = 0;
-    int j = 0;
     
+    while(cmd_arg[save])
+    {
+        compteur++;
+        save++;
+    }
+    char **result = (char **)malloc(sizeof(char *) * compteur + 1);
     while(cmd_arg[index])
     {
+        result[i] = ft_strdup(cmd_arg[index]);
         i++;
         index++;
     }
-    char **result = (char **)malloc(sizeof(char *) * i + 1);
-    while(cmd_arg[save])
-    {
-        result[j] = ft_strdup(cmd_arg[save]);
-        j++;
-        save++;
-    }
-    result[j] = NULL;
+    result[i] = NULL;
     free_tab(cmd_arg);
     return(result);
 }
