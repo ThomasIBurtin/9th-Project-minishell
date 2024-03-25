@@ -6,7 +6,7 @@
 /*   By: transfo <transfo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 21:53:15 by transfo           #+#    #+#             */
-/*   Updated: 2024/03/25 21:20:18 by transfo          ###   ########.fr       */
+/*   Updated: 2024/03/25 22:50:28 by transfo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,12 +57,18 @@ int len_var(char *str, int *i, t_programme *programme)
 	{
 		*i+=1;
 		char *cle = extracte_cle(str, i);
-		char *env_value = find_value(*programme->liste_env, cle);
-		char *variable_value = find_value(*programme->liste_variable, cle);
+		char **env_value = find_value(*programme->liste_env, cle);
+		char **variable_value = find_value(*programme->liste_variable, cle);
 		if(env_value != NULL)
-			len += ft_strlen(env_value);
+		{
+			len += ft_strlen(env_value[1]);
+			free_tab(env_value);
+		}
 		else if(variable_value != NULL)
-			len+=ft_strlen(variable_value);
+		{
+			len+=ft_strlen(variable_value[1]);
+			free_tab(variable_value);
+		}
 		free(cle);
 	}
 	else
@@ -83,17 +89,19 @@ void input_var(t_token *new, char *str, t_programme *programme, int *i, int *j)
 		int k = 0;
 		*i+=1;
 		char *cle = extracte_cle(str, i);
-		char *env_value = find_value(*programme->liste_env, cle);
-		char *variable_value = find_value(*programme->liste_variable, cle);
+		char **env_value = find_value(*programme->liste_env, cle);
+		char **variable_value = find_value(*programme->liste_variable, cle);
 		if(env_value != NULL)
 		{
-			while(env_value[k])
-				new->str[(*j)++] = env_value[k++];
+			while(env_value[1][k])
+				new->str[(*j)++] = env_value[1][k++];
+			free_tab(env_value);
 		}
 		else if(variable_value != NULL)
 		{
-			while(variable_value[k])
-				new->str[(*j)++] = variable_value[k++];
+			while(variable_value[1][k])
+				new->str[(*j)++] = variable_value[1][k++];
+			free_tab(variable_value);
 		}
 		free(cle);
 	}
@@ -121,7 +129,7 @@ char *extracte_cle(char *str, int *i)
 }
 
 
-char *find_value(t_list *list, char *cle)
+char **find_value(t_list *list, char *cle)
 {
 	char **tab_key_value;
 	
@@ -129,7 +137,7 @@ char *find_value(t_list *list, char *cle)
 	{
 		tab_key_value = ft_split(list->content, '=');
 		if(ft_compare(tab_key_value[0], cle) == 1)
-			return(tab_key_value[1]);
+			return(tab_key_value);
 		free_tab(tab_key_value);
 		list = list->next;
 	}

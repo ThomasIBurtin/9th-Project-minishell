@@ -6,7 +6,7 @@
 /*   By: transfo <transfo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 16:36:02 by transfo           #+#    #+#             */
-/*   Updated: 2024/03/25 22:25:50 by transfo          ###   ########.fr       */
+/*   Updated: 2024/03/25 22:34:43 by transfo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	check_already_exist(char *variable_split, t_list *list)
 }
 
 
-void edit_envp(int index, char *var, t_list **list)
+void replace_var(int index, char *var, t_list **list)
 {
     t_list *current_node = *list;
     t_list *previous_node = NULL;

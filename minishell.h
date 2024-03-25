@@ -6,7 +6,7 @@
 /*   By: transfo <transfo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 19:31:57 by transfo           #+#    #+#             */
-/*   Updated: 2024/03/25 22:26:23 by transfo          ###   ########.fr       */
+/*   Updated: 2024/03/25 22:47:19 by transfo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,7 @@ void add_data(t_data **liste_data, t_token *liste_token);
     t_type get_type_arg(t_token **liste_token);
     int modife_liste(t_token *current, t_type type, t_token **liste_token);
         // utils_token
-        char *find_value(t_list *list, char *cle);
+        char **find_value(t_list *list, char *cle);
         int len_commande(char *str, t_programme *programme);
         int len_var(char *str, int *i, t_programme *programme);
         void input_var(t_token *new, char *str, t_programme *programme, int *i, int *j);
@@ -140,7 +140,7 @@ void remplir_liste(char **tab, t_list **list);
 char **replace_commande(char **cmd_arg, int index);
         // utils_variable
         int	check_already_exist(char *variable_split, t_list *list);
-        void edit_envp(int index, char *var, t_list **list);
+        void replace_var(int index, char *var, t_list **list);
 
 // execution
 void test(t_programme *programme);

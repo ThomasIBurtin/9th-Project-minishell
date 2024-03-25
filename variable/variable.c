@@ -6,7 +6,7 @@
 /*   By: transfo <transfo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 13:47:37 by transfo           #+#    #+#             */
-/*   Updated: 2024/03/25 22:22:38 by transfo          ###   ########.fr       */
+/*   Updated: 2024/03/25 22:34:51 by transfo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void remplir_liste(char **tab, t_list **list)
 	    variable_split = ft_split(tab[i], '=');
         index = check_already_exist(variable_split[0], *list);
 	    if(index != -1)
-            edit_envp(index, tab[i], list);
+            replace_var(index, tab[i], list);
 	    else
 	    {
 		    new = ft_lstnew(tab[i]);
