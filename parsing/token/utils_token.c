@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_token.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tburtin <tburtin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: transfo <transfo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 21:53:15 by transfo           #+#    #+#             */
-/*   Updated: 2024/03/25 17:27:49 by tburtin          ###   ########.fr       */
+/*   Updated: 2024/03/25 21:20:18 by transfo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,7 +128,7 @@ char *find_value(t_list *list, char *cle)
 	while(list)
 	{
 		tab_key_value = ft_split(list->content, '=');
-		if(compare(tab_key_value[0], cle) == 1)
+		if(ft_compare(tab_key_value[0], cle) == 1)
 			return(tab_key_value[1]);
 		free_tab(tab_key_value);
 		list = list->next;

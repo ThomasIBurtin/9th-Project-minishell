@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tburtin <tburtin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: transfo <transfo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 19:31:57 by transfo           #+#    #+#             */
-/*   Updated: 2024/03/25 17:59:16 by tburtin          ###   ########.fr       */
+/*   Updated: 2024/03/25 22:26:23 by transfo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,11 +136,11 @@ void add_data(t_data **liste_data, t_token *liste_token);
 // variable
 int variable(t_programme *programme);
 int check_ifonly_var(char **cmd_arg);
-void remplir_liste(char **tab, t_list **liste);
+void remplir_liste(char **tab, t_list **list);
 char **replace_commande(char **cmd_arg, int index);
         // utils_variable
-        int	check_already_exist(char *variable, t_list *list);
-        void edit_envp(char *var, char *cmd, t_list **list);
+        int	check_already_exist(char *variable_split, t_list *list);
+        void edit_envp(int index, char *var, t_list **list);
 
 // execution
 void test(t_programme *programme);

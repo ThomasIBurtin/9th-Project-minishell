@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstnew.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tburtin <tburtin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: transfo <transfo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 14:55:36 by tburtin           #+#    #+#             */
-/*   Updated: 2024/03/25 18:12:43 by tburtin          ###   ########.fr       */
+/*   Updated: 2024/03/25 21:33:52 by transfo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,7 @@ t_list	*ft_lstnew(char *content)
 	t_list	*new;
 
 	new = malloc (sizeof(t_list));
-	if (!new)
-		return (NULL);
-	new->content = content;
+	new->content = ft_strdup(content);
 	new->next = NULL;
 	return (new);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tburtin <tburtin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: transfo <transfo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 12:16:39 by tburtin           #+#    #+#             */
-/*   Updated: 2024/03/21 14:56:13 by tburtin          ###   ########.fr       */
+/*   Updated: 2024/03/25 21:18:30 by transfo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ void create_commande(t_token *new, char *str, t_programme *programme)
 {
 	int i = 0;
 	int j = 0;
-	
 
 	new->str = (char *)malloc(sizeof(char) * (len_commande(str, programme) + 1));
 	while(str[i])

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tburtin <tburtin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: transfo <transfo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 19:31:33 by transfo           #+#    #+#             */
-/*   Updated: 2024/03/25 18:29:37 by tburtin          ###   ########.fr       */
+/*   Updated: 2024/03/25 21:37:27 by transfo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int main(int argc, char **argv, char **envp)
             //execution
         }
         test(&programme);
-        //free_data(&programme);
+        free_data(&programme);
     }
     free_programme(&programme);
 }

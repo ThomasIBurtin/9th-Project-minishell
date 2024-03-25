@@ -3,13 +3,12 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tburtin <tburtin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: transfo <transfo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 12:09:36 by transfo           #+#    #+#             */
-/*   Updated: 2024/03/25 16:35:54 by tburtin          ###   ########.fr       */
+/*   Updated: 2024/03/25 22:28:32 by transfo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "libft.h"
 
@@ -28,44 +27,6 @@ int ft_strchr(char *s, char c)
 				return(0);
 			return (1);
 		}
-		i++;
-	}
-	return (0);
-}
-
-
-char	*ft_strnstr(const char *big, const char *little, size_t len)
-{
-	size_t	i;
-	size_t	j;
-
-	i = 0;
-	if (len == 0 && !big)
-		return (NULL);
-	if (!little[i])
-		return ((char *)big);
-	while (big[i] && i < len)
-	{
-		j = 0;
-		while (big[i + j] == little[j] && little[j] && (i + j < len))
-			j++;
-		if (little[j] == '\0')
-			return ((char *)big + i);
-		i++;
-	}
-	return (NULL);
-}
-
-
-int	ft_strncmp(const char *s1, const char *s2, size_t n)
-{
-	int	i;
-
-	i = 0;
-	while ((s1[i] || s2[i]) && (size_t)i < n)
-	{
-		if (s1[i] != s2[i])
-			return ((unsigned char)s1[i] - (unsigned char)s2[i]);
 		i++;
 	}
 	return (0);

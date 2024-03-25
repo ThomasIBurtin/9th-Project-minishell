@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_free.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tburtin <tburtin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: transfo <transfo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 09:40:23 by transfo           #+#    #+#             */
-/*   Updated: 2024/03/25 18:11:48 by tburtin          ###   ########.fr       */
+/*   Updated: 2024/03/25 22:29:30 by transfo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ void init_programme(t_programme *programme, char **envp)
     *programme->liste_env = NULL;
     create_lst_envp(envp, programme->liste_env);
 }
+
 
 void create_lst_envp(char **envp, t_list **liste)
 {

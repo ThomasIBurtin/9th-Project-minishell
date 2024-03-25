@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   variable.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tburtin <tburtin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: transfo <transfo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 13:47:37 by transfo           #+#    #+#             */
-/*   Updated: 2024/03/25 18:28:57 by tburtin          ###   ########.fr       */
+/*   Updated: 2024/03/25 22:22:38 by transfo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ int variable(t_programme *programme)
 
     if(liste_data->cmd_arg[0] == NULL || ft_strchr(liste_data->cmd_arg[0], '=') == 0)
         return(1);
-    
     index = check_ifonly_var(liste_data->cmd_arg);
     if(index == -1)
         remplir_liste(liste_data->cmd_arg, programme->liste_variable);
@@ -46,27 +45,28 @@ int check_ifonly_var(char **cmd_arg)
 }
 
 
-void remplir_liste(char **tab, t_list **liste)
+void remplir_liste(char **tab, t_list **list)
 {
     t_list *new;
-    char **variable;
+    char **variable_split;
+    int index;
     int i = 0;
     
     while(tab[i] != NULL)
     {
-	    variable = ft_split(tab[i], '=');
-	    if(check_already_exist(variable[0], *liste) == 1)
-		    edit_envp(variable[0], tab[i], liste);
+	    variable_split = ft_split(tab[i], '=');
+        index = check_already_exist(variable_split[0], *list);
+	    if(index != -1)
+            edit_envp(index, tab[i], list);
 	    else
 	    {
 		    new = ft_lstnew(tab[i]);
-		    ft_lstadd_back(liste, new);
+		    ft_lstadd_back(list, new);
 	    }
-	    free_tab(variable);
+        free_tab(variable_split);
         i++;
     }
 }
-
 
 
 char **replace_commande(char **cmd_arg, int index)
