@@ -6,95 +6,53 @@
 /*   By: tburtin <tburtin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 16:36:02 by transfo           #+#    #+#             */
-/*   Updated: 2024/03/21 15:02:09 by tburtin          ###   ########.fr       */
+/*   Updated: 2024/03/25 17:59:09 by tburtin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
 
-int check_if_exsite(char *str, t_liste *liste_variable, int len_cle)
+int	check_already_exist(char *variable, t_list *list)
 {
-    int i = 0;
-    char cle[len_cle];
-    
-    while(str[i] != '=')
-    {
-        cle[i] = str[i];
-        i++;
-    }
-    cle[i] = '\0';
-    i = 0;
-    while(liste_variable)
-    {
-        if(compare(liste_variable->cle, cle) == 1)
-            return(i);
-        liste_variable = liste_variable->next;
-        i++;
-    }
-    return(-1);
-}
-
-
-void replace_value(int index, t_liste *liste_variable, int len_valeur, char *str)
-{
-    int i = 0;
-    int j = 0;
-    
-    while(index != 0)
-    {
-        liste_variable = liste_variable->next;
-        index--;
-    }
-    free(liste_variable->valeur);
-    liste_variable->valeur = (char *)malloc(sizeof(char) * len_valeur + 1);
-
-    while(str[i] != '=')
-        i++;
-    i++;
-    while(str[i])
-        liste_variable->valeur[j++] = str[i++];
-    liste_variable->valeur[j] = '\0';
-}
-
-
-void add_back_frontss(t_liste **liste, t_liste *new)
-{
-    t_liste *current;
-
-    if (*liste == NULL)
+	while ((list != NULL && list->content != NULL)
+		&& (list->content[0] != '\0'))
 	{
-    	*liste = new;
-		(*liste)->next = NULL;
+		if (ft_strncmp(list->content, variable, ft_strlen(variable)) == 0)
+			return (1);
+		if (list->next == NULL || list->next->content[0] == '\0'
+			|| list->next->content == NULL)
+			break ;
+		list = list->next;
 	}
-    else
-    {
-        current = *liste;
-        while (current->next != NULL)
-        	current = current->next;
-        
-        current->next = new;
-    }
+	return (0);
 }
 
 
-t_liste		*new_element(char *str, int len_cle, int len_valeur)
+void	edit_envp(char *var, char *cmd, t_list **list)
 {
-	int i = 0;
-    int j = 0;
-	t_liste	*new = (t_liste *)malloc(sizeof(t_liste));
-    new->cle = (char *)malloc(sizeof(char) * len_cle + 1);
-    new->valeur = (char *)malloc(sizeof(char) * len_valeur + 1);
-	
-	while(str[i] != '=')
-	    new->cle[j++] = str[i++];
-    new->cle[j] = '\0';
-    i++;
-    j = 0;
-    while(str[i])
-	    new->valeur[j++] = str[i++];
-    new->valeur[j] = '\0';
-	new->next = NULL;
-    
-	return(new);
+	t_list	*current_node;
+	t_list	*previous_node;
+	t_list	*next_node;
+	t_list	*new_node;
+
+	new_node = ft_lstnew(cmd);
+	current_node = *list;
+	while (ft_strncmp(current_node->content, var, ft_strlen(var)) != 0)
+	{
+		previous_node = current_node;
+		current_node = current_node->next;
+		next_node = current_node->next;
+	}
+	if (current_node == *list)
+	{
+		new_node->next = current_node->next;
+		*list = new_node;
+	}
+	else
+	{
+		previous_node->next = new_node;
+		new_node->next = next_node;
+	}
+	free(current_node);
 }

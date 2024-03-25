@@ -6,7 +6,7 @@
 /*   By: tburtin <tburtin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 10:55:53 by tburtin           #+#    #+#             */
-/*   Updated: 2024/03/21 15:25:04 by tburtin          ###   ########.fr       */
+/*   Updated: 2024/03/25 18:23:46 by tburtin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,6 @@ t_data *ft_newcmd(t_token *liste_token)
 	char static  *last_outfile = NULL;
 	t_len len;
 
-	new->next = NULL;
-	new->prev = NULL;
-	
 	len_all_tab(liste_token, &len, position);
 	allocation_tab(len, new);
 	

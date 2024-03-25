@@ -6,7 +6,7 @@
 /*   By: tburtin <tburtin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 19:31:57 by transfo           #+#    #+#             */
-/*   Updated: 2024/03/21 15:24:41 by tburtin          ###   ########.fr       */
+/*   Updated: 2024/03/25 17:59:16 by tburtin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,8 +83,8 @@ typedef struct s_programme
     char *const *split_args;
     t_token **liste_token;
     t_data **liste_data;
-    t_liste **liste_variable;
-    t_liste **liste_env;
+    t_list **liste_variable;
+    t_list **liste_env;
 }   t_programme;
 
 
@@ -93,10 +93,11 @@ void init_programme(t_programme *programme, char **envp);
 void free_programme(t_programme *programme);
 void init_data(t_programme *programme);
 void free_data(t_programme *programme);
+void create_lst_envp(char **envp, t_list **liste);
     //utils_init_free
     void free_t_token(t_token *token);
     void free_t_data(t_data *data);
-    void free_t_liste(t_liste *var);
+    void free_t_liste(t_list *var);
     
 // parsing
 int parse(t_programme *programme);
@@ -112,7 +113,7 @@ void add_data(t_data **liste_data, t_token *liste_token);
     t_type get_type_arg(t_token **liste_token);
     int modife_liste(t_token *current, t_type type, t_token **liste_token);
         // utils_token
-        char *find_value(t_liste *liste, char *cle);
+        char *find_value(t_list *list, char *cle);
         int len_commande(char *str, t_programme *programme);
         int len_var(char *str, int *i, t_programme *programme);
         void input_var(t_token *new, char *str, t_programme *programme, int *i, int *j);
@@ -135,13 +136,11 @@ void add_data(t_data **liste_data, t_token *liste_token);
 // variable
 int variable(t_programme *programme);
 int check_ifonly_var(char **cmd_arg);
-void remplir_liste(char **tab, t_liste **liste);
+void remplir_liste(char **tab, t_list **liste);
 char **replace_commande(char **cmd_arg, int index);
         // utils_variable
-        void replace_value(int index, t_liste *liste_variable, int len_valeur, char *str);
-        int check_if_exsite(char *str, t_liste *liste_variable, int len_cle);
-        void add_back_frontss(t_liste **liste, t_liste *new);
-        t_liste *new_element(char *str, int len_cle, int len_valeur);
+        int	check_already_exist(char *variable, t_list *list);
+        void edit_envp(char *var, char *cmd, t_list **list);
 
 // execution
 void test(t_programme *programme);

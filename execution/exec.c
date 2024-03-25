@@ -6,7 +6,7 @@
 /*   By: tburtin <tburtin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 19:31:27 by transfo           #+#    #+#             */
-/*   Updated: 2024/03/21 14:34:02 by tburtin          ###   ########.fr       */
+/*   Updated: 2024/03/25 17:32:43 by tburtin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void test(t_programme *programme)
 {
 	t_data *temp = *programme->liste_data;
-    t_liste *temps = *programme->liste_variable;
+    t_list *temps = *programme->liste_variable;
     int i = 0;
     int j = 0;
     int k = 0;
@@ -76,10 +76,7 @@ void test(t_programme *programme)
     }
     while(temps)
     {
-        a = 0;
-        printf("%s", temps->cle);
-        printf(" ");
-        printf("%s", temps->valeur);
+        printf("%s", temps->content);
         printf("\n");
         temps = temps->next;
     }

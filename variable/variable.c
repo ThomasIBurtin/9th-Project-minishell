@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   variable.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: transfo <transfo@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tburtin <tburtin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 13:47:37 by transfo           #+#    #+#             */
-/*   Updated: 2024/03/22 12:13:55 by transfo          ###   ########.fr       */
+/*   Updated: 2024/03/25 18:28:57 by tburtin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,35 +46,27 @@ int check_ifonly_var(char **cmd_arg)
 }
 
 
-void remplir_liste(char **tab, t_liste **liste)
+void remplir_liste(char **tab, t_list **liste)
 {
-    t_liste *new;
+    t_list *new;
+    char **variable;
     int i = 0;
-    int j;
-    int len_cle;
-    int len_valeur;
-    int index;
-
-    while(tab[i])
+    
+    while(tab[i] != NULL)
     {
-        j = 0;
-        len_cle = 0;
-        len_valeur = 0;
-        while(tab[i][j++] != '=')
-            len_cle++;
-        while(tab[i][j++])
-            len_valeur++;
-        index = check_if_exsite(tab[i], *liste, len_cle);
-        if(index != -1)
-            replace_value(index, *liste, len_valeur, tab[i]);
-        else
-        {
-            new = new_element(tab[i], len_cle, len_valeur);
-            add_back_frontss(liste, new);
-        }
+	    variable = ft_split(tab[i], '=');
+	    if(check_already_exist(variable[0], *liste) == 1)
+		    edit_envp(variable[0], tab[i], liste);
+	    else
+	    {
+		    new = ft_lstnew(tab[i]);
+		    ft_lstadd_back(liste, new);
+	    }
+	    free_tab(variable);
         i++;
     }
 }
+
 
 
 char **replace_commande(char **cmd_arg, int index)

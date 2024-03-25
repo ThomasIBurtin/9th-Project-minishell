@@ -6,7 +6,7 @@
 /*   By: tburtin <tburtin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:38:17 by tburtin           #+#    #+#             */
-/*   Updated: 2024/03/21 15:04:31 by tburtin          ###   ########.fr       */
+/*   Updated: 2024/03/25 18:24:29 by tburtin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,15 +42,14 @@ void free_t_token(t_token *token)
 }
 
 
-void free_t_liste(t_liste *var)
+void free_t_liste(t_list *var)
 {
-    t_liste *temp;
+    t_list *temp;
     while (var != NULL)
     {
         temp = var;
         var = var->next;
-        free(temp->cle);
-        free(temp->valeur);
+        free(temp->content);
         free(temp);
     }
 }

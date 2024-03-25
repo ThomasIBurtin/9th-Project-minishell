@@ -13,6 +13,8 @@ SRC = ft_calloc.c \
       ft_putstr_fd.c \
       ft_putendl_fd.c \
       ft_split.c \
+      ft_lstnew.c \
+      ft_lstadd_back.c \
       ft_compare.c
 
 OBJ = $(SRC:.c=.o)

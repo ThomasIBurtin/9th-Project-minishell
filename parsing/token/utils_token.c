@@ -6,7 +6,7 @@
 /*   By: tburtin <tburtin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 21:53:15 by transfo           #+#    #+#             */
-/*   Updated: 2024/03/21 14:55:43 by tburtin          ###   ########.fr       */
+/*   Updated: 2024/03/25 17:27:49 by tburtin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,13 +121,17 @@ char *extracte_cle(char *str, int *i)
 }
 
 
-char *find_value(t_liste *liste, char *cle)
+char *find_value(t_list *list, char *cle)
 {
-	while(liste)
+	char **tab_key_value;
+	
+	while(list)
 	{
-		if(compare(liste->cle, cle) == 1)
-			return(liste->valeur);
-		liste = liste->next;
+		tab_key_value = ft_split(list->content, '=');
+		if(compare(tab_key_value[0], cle) == 1)
+			return(tab_key_value[1]);
+		free_tab(tab_key_value);
+		list = list->next;
 	}
 	return(NULL);
 }
