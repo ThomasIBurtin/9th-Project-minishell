@@ -10,8 +10,10 @@ SRC = main.c \
 	  variable/utils_variable.c \
 	  programme/init_free.c \
 	  programme/utils_init_free.c \
-      execution/exec.c \
-	  chek_command.c
+	  chek/chek_ligne.c \
+	  chek/utils_chek.c \
+      test.c
+	  
 OBJ = $(SRC:.c=.o)
 LIBFT_OBJ = 1st-Project-Libft/*.o 
 NAME = minishell

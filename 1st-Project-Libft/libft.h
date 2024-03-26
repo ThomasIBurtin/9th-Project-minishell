@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: transfo <transfo@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tburtin <tburtin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/04 13:49:38 by tburtin           #+#    #+#             */
-/*   Updated: 2024/03/25 22:27:52 by transfo          ###   ########.fr       */
+/*   Updated: 2024/03/26 16:16:06 by tburtin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,5 +44,6 @@ void	*free_tab(char **tab);
 int     ft_compare(char *str, char *strr);
 t_list	*ft_lstnew(char *content);
 void	ft_lstadd_back(t_list **lst, t_list *new);
+char	*ft_strnstr(const char *big, const char *little, size_t len);
 
 #endif

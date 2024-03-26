@@ -6,7 +6,7 @@
 /*   By: tburtin <tburtin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 19:31:57 by transfo           #+#    #+#             */
-/*   Updated: 2024/03/26 14:12:32 by tburtin          ###   ########.fr       */
+/*   Updated: 2024/03/26 16:41:19 by tburtin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,10 +134,13 @@ char **replace_commande(char **cmd_arg, int index);
     int	check_already_exist(char *variable_split, t_list *list);
     void replace_var(int index, char *var, t_list **list);
 
-// chek_command
-int chek_command(t_data *liste_data);
+// chek_ligne
+int chek_ligne(t_token *liste_token, t_data *liste_data, char **envp);
+    // utils_chek
+    int chek_infile(char *infile);
+    int chek_outfile(t_token *liste_token);
+    int chek_command(char **cmd_arg, char **envp);
 
-// execution
 void test(t_programme *programme);
 
 #endif

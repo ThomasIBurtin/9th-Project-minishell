@@ -6,7 +6,7 @@
 /*   By: tburtin <tburtin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 19:31:33 by transfo           #+#    #+#             */
-/*   Updated: 2024/03/26 13:43:20 by tburtin          ###   ########.fr       */
+/*   Updated: 2024/03/26 16:41:23 by tburtin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,8 @@ int main(int argc, char **argv, char **envp)
         init_data(&programme);
         if(parse(&programme) == 1 && variable(&programme) == 1)
         {
-            if(chek_command(*programme.liste_data) == 1)
-            {
-                //execution
-            }
+            chek_ligne(*programme.liste_token, *programme.liste_data, envp);
+            // execution
         }
         test(&programme);
         free_data(&programme);
