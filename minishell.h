@@ -6,7 +6,7 @@
 /*   By: transfo <transfo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 19:31:57 by transfo           #+#    #+#             */
-/*   Updated: 2024/03/25 22:47:19 by transfo          ###   ########.fr       */
+/*   Updated: 2024/03/26 11:23:00 by transfo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,6 @@ void init_programme(t_programme *programme, char **envp);
 void free_programme(t_programme *programme);
 void init_data(t_programme *programme);
 void free_data(t_programme *programme);
-void create_lst_envp(char **envp, t_list **liste);
     //utils_init_free
     void free_t_token(t_token *token);
     void free_t_data(t_data *data);

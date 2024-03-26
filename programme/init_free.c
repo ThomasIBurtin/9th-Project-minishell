@@ -6,7 +6,7 @@
 /*   By: transfo <transfo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 09:40:23 by transfo           #+#    #+#             */
-/*   Updated: 2024/03/25 22:29:30 by transfo          ###   ########.fr       */
+/*   Updated: 2024/03/26 11:22:41 by transfo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,22 +18,7 @@ void init_programme(t_programme *programme, char **envp)
     programme->liste_env = (t_list **)malloc(sizeof(t_list*));
     *programme->liste_variable = NULL;
     *programme->liste_env = NULL;
-    create_lst_envp(envp, programme->liste_env);
-}
-
-
-void create_lst_envp(char **envp, t_list **liste)
-{
-	int		i;
-	t_list	*new_node;
-
-	i = 0;
-	while (envp[i])
-	{
-		new_node = ft_lstnew(envp[i]);
-		ft_lstadd_back(liste, new_node);
-		i++;
-	}
+    remplir_liste(envp, programme->liste_env);
 }
 
 

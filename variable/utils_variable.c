@@ -6,7 +6,7 @@
 /*   By: transfo <transfo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/13 16:36:02 by transfo           #+#    #+#             */
-/*   Updated: 2024/03/25 22:34:43 by transfo          ###   ########.fr       */
+/*   Updated: 2024/03/26 11:21:27 by transfo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,14 +37,12 @@ void replace_var(int index, char *var, t_list **list)
     t_list *previous_node = NULL;
 
     t_list *new_node = ft_lstnew(var);
-
     while (index > 0)
     {
         previous_node = current_node;
         current_node = current_node->next;
         index--;
     }
-
     if (previous_node == NULL)
     {
         new_node->next = current_node->next;
@@ -55,7 +53,6 @@ void replace_var(int index, char *var, t_list **list)
         previous_node->next = new_node;
         new_node->next = current_node->next;
     }
-
     free(current_node->content);
     free(current_node);
 }
