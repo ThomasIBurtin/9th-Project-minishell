@@ -6,7 +6,7 @@
 /*   By: tburtin <tburtin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 19:31:57 by transfo           #+#    #+#             */
-/*   Updated: 2024/03/26 13:51:36 by tburtin          ###   ########.fr       */
+/*   Updated: 2024/03/26 14:12:32 by tburtin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,6 @@
 #include <sys/wait.h>
 #include <fcntl.h>
 
-
-typedef struct s_liste
-{
-    char *cle;
-    char *valeur;
-    struct s_liste *next; 
-}                   t_liste;
 
 typedef struct s_len
 {
@@ -55,6 +48,15 @@ typedef enum s_type
 }           t_type;
 
 
+typedef struct	s_token
+{
+	char			*str;
+	t_type				type;
+	struct s_token	*prev;
+	struct s_token	*next;
+}                   t_token;
+
+
 typedef struct s_data
 {
     char **cmd_arg;
@@ -65,15 +67,6 @@ typedef struct s_data
     struct s_data *prev;
     struct s_data *next; 
 }                   t_data;
-
-
-typedef struct	s_token
-{
-	char			*str;
-	t_type				type;
-	struct s_token	*prev;
-	struct s_token	*next;
-}                   t_token;
 
 
 typedef struct s_programme
