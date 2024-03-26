@@ -6,7 +6,7 @@
 /*   By: tburtin <tburtin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 11:18:00 by transfo           #+#    #+#             */
-/*   Updated: 2024/03/21 15:07:06 by tburtin          ###   ########.fr       */
+/*   Updated: 2024/03/26 13:47:44 by tburtin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,11 +124,17 @@ int parse(t_programme *programme)
     if(ft_strlen(programme->args) < 1)
         return(0);
     if(check_quotes(programme->args) == 0)
+    {
+        perror("Quotes");
         return(0);
+    }
     programme->args = add_space(programme->args);
     programme->split_args = (char *const *)ft_split(programme->args, ' ');
     if(get_tokens((char **)programme->split_args, programme) == 0)
+    {
+        perror("redirection");
         return(0);
+    }
     add_data(programme->liste_data, *programme->liste_token);
     return(1);
 }

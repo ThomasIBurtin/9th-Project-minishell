@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: transfo <transfo@student.42.fr>            +#+  +:+       +#+        */
+/*   By: tburtin <tburtin@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 19:31:57 by transfo           #+#    #+#             */
-/*   Updated: 2024/03/26 11:23:00 by transfo          ###   ########.fr       */
+/*   Updated: 2024/03/26 13:51:36 by tburtin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,6 @@ typedef struct s_data
     char **outfile_append;
     char **infile;
     char **here_doc;
-
     struct s_data *prev;
     struct s_data *next; 
 }                   t_data;
@@ -82,8 +81,9 @@ typedef struct s_programme
     char *args;
     char *const *split_args;
     t_token **liste_token;
-    t_data **liste_data;
     t_list **liste_variable;
+    
+    t_data **liste_data;
     t_list **liste_env;
 }   t_programme;
 
@@ -137,9 +137,12 @@ int variable(t_programme *programme);
 int check_ifonly_var(char **cmd_arg);
 void remplir_liste(char **tab, t_list **list);
 char **replace_commande(char **cmd_arg, int index);
-        // utils_variable
-        int	check_already_exist(char *variable_split, t_list *list);
-        void replace_var(int index, char *var, t_list **list);
+    // utils_variable
+    int	check_already_exist(char *variable_split, t_list *list);
+    void replace_var(int index, char *var, t_list **list);
+
+// chek_command
+int chek_command(t_data *liste_data);
 
 // execution
 void test(t_programme *programme);
