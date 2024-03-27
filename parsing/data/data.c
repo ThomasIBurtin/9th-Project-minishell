@@ -6,7 +6,7 @@
 /*   By: transfo <transfo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 10:55:53 by tburtin           #+#    #+#             */
-/*   Updated: 2024/03/27 21:22:47 by transfo          ###   ########.fr       */
+/*   Updated: 2024/03/27 22:14:35 by transfo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,15 +75,15 @@ void len_all_tab(t_token *liste_token, t_len *len, int position)
 void allocation_tab(t_len len, t_data *new)
 {
 	new->cmd_arg = (char **)malloc(sizeof(char *) * (len.compteur_commande + 1));
-	new->outfile =  (char **)malloc(sizeof(char *) * (len.compteur_append + len.compteur_outfile + 1));
+	new->outfile =  (char **)malloc(sizeof(char *) * (len.compteur_outfile + 1));
 	new->outfile_append = (char **)malloc(sizeof(char *) * (len.compteur_append + 1));
-	new->infile = (char **)malloc(sizeof(char *) * (len.compteur_heredoc + len.compteur_infile + 1));
+	new->infile = (char **)malloc(sizeof(char *) * (len.compteur_infile + 1));
 	new->here_doc = (char **)malloc(sizeof(char *) * (len.compteur_heredoc + 1));
 
 	new->cmd_arg[len.compteur_commande] = NULL;
-	new->outfile[len.compteur_append + len.compteur_outfile] = NULL;
+	new->outfile[len.compteur_outfile] = NULL;
 	new->outfile_append[len.compteur_append] = NULL;
-	new->infile[len.compteur_heredoc + len.compteur_infile] = NULL;
+	new->infile[len.compteur_infile] = NULL;
 	new->here_doc[len.compteur_heredoc] = NULL;
 }
 
