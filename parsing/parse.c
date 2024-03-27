@@ -6,7 +6,7 @@
 /*   By: transfo <transfo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 11:18:00 by transfo           #+#    #+#             */
-/*   Updated: 2024/03/27 17:18:42 by transfo          ###   ########.fr       */
+/*   Updated: 2024/03/27 21:22:13 by transfo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ int get_tokens(char **args, t_programme *programme)
 	int i = 0;
 	t_token *new;
 
-	while(args[i] != NULL)
+	while(args[i])
 	{
 		new = ft_newtoken(args[i], programme);
 		add_back_front(programme->liste_token, new);
@@ -105,7 +105,7 @@ void add_data(t_data **liste_data, t_token *liste_token)
 {
     t_data *new;
 
-    while(liste_token != NULL)
+    while(liste_token)
     {
         if(liste_token->prev == NULL || liste_token->type == pip)
         {

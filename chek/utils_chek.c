@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_chek.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tburtin <tburtin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: transfo <transfo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 16:24:11 by tburtin           #+#    #+#             */
-/*   Updated: 2024/03/26 16:28:52 by tburtin          ###   ########.fr       */
+/*   Updated: 2024/03/27 17:40:19 by transfo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,6 @@ int chek_outfile(t_token *liste_token)
 		}
 		else
 			close(fd);
-		return (1);
 	}
 	else if(liste_token->type == append)
 	{
@@ -94,8 +93,8 @@ int chek_outfile(t_token *liste_token)
 		}
 		else
 			close(fd);
-		return (1);
 	}
+	return(1);
 }
 
 

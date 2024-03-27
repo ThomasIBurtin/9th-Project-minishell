@@ -6,7 +6,7 @@
 /*   By: transfo <transfo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 13:38:55 by tburtin           #+#    #+#             */
-/*   Updated: 2024/03/27 17:33:50 by transfo          ###   ########.fr       */
+/*   Updated: 2024/03/27 21:23:26 by transfo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,13 +37,40 @@ int chek_ligne(t_token *liste_token, t_data **liste_data, char **envp)
 			current_data->commande_correct = 1;
 		current_data = current_data->next;
 	}
+	delete_wrong_data(liste_data);
+	return(1);
+}
 
-	current_data = *liste_data;
+
+void delete_wrong_data(t_data **liste_data)
+{
+	t_data *current_data = *liste_data;
+	t_data *temp;
+	t_data *temp2;
 
 	while(current_data)
 	{
-		printf("%d", current_data->commande_correct);
+		if(current_data->commande_correct == 1)
+		{
+			if(current_data->next != NULL)
+				(*liste_data)->prev = NULL;
+			temp = current_data;
+			free_onedata(temp);
+			*liste_data = current_data->next;
+		}
+		else if(current_data->commande_correct == 0 && current_data->next != NULL && current_data->next->commande_correct == 1)
+		{
+			temp2 = current_data;
+			temp = current_data->next;
+			if (temp->next != NULL) 
+			{
+				(*liste_data)->prev = NULL;
+				free_onedata(temp);
+				current_data = current_data->next;
+			}
+			free_onedata(temp2);
+			*liste_data = current_data->next;
+		}
 		current_data = current_data->next;
 	}
-	return(1);
 }

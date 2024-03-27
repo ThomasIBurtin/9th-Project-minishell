@@ -6,7 +6,7 @@
 /*   By: transfo <transfo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 19:11:10 by tburtin           #+#    #+#             */
-/*   Updated: 2024/03/27 15:29:11 by transfo          ###   ########.fr       */
+/*   Updated: 2024/03/27 21:22:58 by transfo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 void algo_outfile(t_token *liste_token, t_data *new)
 {
-	while(liste_token != NULL)
+	while(liste_token)
 	{
 		if(liste_token->type == pip)
 		{

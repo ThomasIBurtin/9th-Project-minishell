@@ -6,7 +6,7 @@
 /*   By: transfo <transfo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 19:31:57 by transfo           #+#    #+#             */
-/*   Updated: 2024/03/27 17:30:23 by transfo          ###   ########.fr       */
+/*   Updated: 2024/03/27 21:19:25 by transfo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,7 @@ void free_data(t_programme *programme);
     void free_t_token(t_token *token);
     void free_t_data(t_data *data);
     void free_t_liste(t_list *var);
+    void free_onedata(t_data *data);
     
 // parsing
 int parse(t_programme *programme);
@@ -138,6 +139,7 @@ char **replace_commande(char **cmd_arg, int index);
 
 // chek_ligne
 int chek_ligne(t_token *liste_token, t_data **liste_data, char **envp);
+void delete_wrong_data(t_data **liste_data);
     // utils_chek
     int chek_infile(char *infile);
     int chek_outfile(t_token *liste_token);

@@ -6,7 +6,7 @@
 /*   By: transfo <transfo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/21 13:38:17 by tburtin           #+#    #+#             */
-/*   Updated: 2024/03/25 21:34:32 by transfo          ###   ########.fr       */
+/*   Updated: 2024/03/27 21:19:17 by transfo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,4 +52,15 @@ void free_t_liste(t_list *var)
         free(temp->content);
         free(temp);
     }
+}
+
+
+void free_onedata(t_data *data)
+{
+    free_tab(data->cmd_arg);
+    free_tab(data->outfile);
+    free_tab(data->outfile_append);
+    free_tab(data->infile);
+    free_tab(data->here_doc);
+    free(data);
 }

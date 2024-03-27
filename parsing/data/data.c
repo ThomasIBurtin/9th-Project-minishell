@@ -6,7 +6,7 @@
 /*   By: transfo <transfo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 10:55:53 by tburtin           #+#    #+#             */
-/*   Updated: 2024/03/27 17:30:49 by transfo          ###   ########.fr       */
+/*   Updated: 2024/03/27 21:22:47 by transfo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void len_all_tab(t_token *liste_token, t_len *len, int position)
 {
 	init_compteurs(len);
 
-	while(liste_token != NULL && liste_token->type != pip)
+	while(liste_token && liste_token->type != pip)
 	{
 		if(liste_token->type == commande || liste_token->type == argument)
 			len->compteur_commande++;
@@ -96,7 +96,7 @@ void input_all_tab(t_token *liste_token, t_data *new, int flag2)
 	if(flag2 == 1)
 		len.compteur_infile++;
 
-	while(liste_token != NULL && liste_token->type != pip)
+	while(liste_token && liste_token->type != pip)
 	{	
 		if(liste_token->type == commande || liste_token->type == argument)
 			len.compteur_commande = remplir_data(liste_token->str, new->cmd_arg, len.compteur_commande);
