@@ -6,7 +6,7 @@
 /*   By: transfo <transfo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 12:16:39 by tburtin           #+#    #+#             */
-/*   Updated: 2024/03/27 16:53:48 by transfo          ###   ########.fr       */
+/*   Updated: 2024/03/27 22:27:01 by transfo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ t_type get_type_arg(t_token **liste_token)
 					return(0);
 				temp->type = pip;
 			}
-			else if (temp->prev == NULL || temp->prev->type != argument)
+			else if (temp->prev == NULL || temp->prev->type != commande)
 				temp->type = commande;
 			else
 				temp->type = argument;
