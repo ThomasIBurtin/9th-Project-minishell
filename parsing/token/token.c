@@ -6,7 +6,7 @@
 /*   By: transfo <transfo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 12:16:39 by tburtin           #+#    #+#             */
-/*   Updated: 2024/03/25 21:18:30 by transfo          ###   ########.fr       */
+/*   Updated: 2024/03/27 16:53:48 by transfo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,7 @@ int modife_liste(t_token *current, t_type type, t_token **liste_token)
 		return(0);
 	else if(current->prev == NULL)
 	{
-		(*liste_token) = (*liste_token)->next;
+		*liste_token = (*liste_token)->next;
 		(*liste_token)->type = type;
 		(*liste_token)->prev = NULL;
 	}

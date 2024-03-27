@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   data.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tburtin <tburtin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: transfo <transfo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 10:55:53 by tburtin           #+#    #+#             */
-/*   Updated: 2024/03/25 18:23:46 by tburtin          ###   ########.fr       */
+/*   Updated: 2024/03/27 17:30:49 by transfo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,21 +16,21 @@
 t_data *ft_newcmd(t_token *liste_token)
 {
 	t_data *new = (t_data *)malloc(sizeof(t_data));
+	new->commande_correct = 0;
 	int static position = 0;
 	char static  *last_outfile = NULL;
 	t_len len;
 
 	len_all_tab(liste_token, &len, position);
 	allocation_tab(len, new);
-	
 	if(len.flag1 == 1 )
 		algo_outfile(liste_token, new);
 	if(len.flag2 == 1)
 		algo_infile(new, position, last_outfile);
-		
-	input_all_tab(liste_token, new);
+	input_all_tab(liste_token, new, len.flag2);
 	last_outfile = find_last_outfile(new->outfile);
 	check_position(liste_token, &position);
+	
 	return (new);
 }
 
@@ -38,7 +38,7 @@ t_data *ft_newcmd(t_token *liste_token)
 void len_all_tab(t_token *liste_token, t_len *len, int position)
 {
 	init_compteurs(len);
-	
+
 	while(liste_token != NULL && liste_token->type != pip)
 	{
 		if(liste_token->type == commande || liste_token->type == argument)
@@ -74,11 +74,11 @@ void len_all_tab(t_token *liste_token, t_len *len, int position)
 
 void allocation_tab(t_len len, t_data *new)
 {
-	new->cmd_arg = ft_calloc(sizeof(char **), len.compteur_commande + 1);;
-	new->outfile =  ft_calloc(sizeof(char **), len.compteur_append + len.compteur_outfile + 1);
-	new->outfile_append = ft_calloc(sizeof(char **), len.compteur_append + 1);
-	new->infile = ft_calloc(sizeof(char **), len.compteur_heredoc + len.compteur_infile + 1);
-	new->here_doc = ft_calloc(sizeof(char **), len.compteur_heredoc + 1);
+	new->cmd_arg = (char **)malloc(sizeof(char *) * (len.compteur_commande + 1));
+	new->outfile =  (char **)malloc(sizeof(char *) * (len.compteur_append + len.compteur_outfile + 1));
+	new->outfile_append = (char **)malloc(sizeof(char *) * (len.compteur_append + 1));
+	new->infile = (char **)malloc(sizeof(char *) * (len.compteur_heredoc + len.compteur_infile + 1));
+	new->here_doc = (char **)malloc(sizeof(char *) * (len.compteur_heredoc + 1));
 
 	new->cmd_arg[len.compteur_commande] = NULL;
 	new->outfile[len.compteur_append + len.compteur_outfile] = NULL;
@@ -88,12 +88,12 @@ void allocation_tab(t_len len, t_data *new)
 }
 
 
-void input_all_tab(t_token *liste_token, t_data *new)
+void input_all_tab(t_token *liste_token, t_data *new, int flag2)
 {
 	t_len len;		
 	init_compteurs(&len);
 
-	if((new->infile[0] != NULL) && (new->infile[0][0] >= 'a' && new->infile[0][0] <= 'z'))
+	if(flag2 == 1)
 		len.compteur_infile++;
 
 	while(liste_token != NULL && liste_token->type != pip)
@@ -122,18 +122,17 @@ void input_all_tab(t_token *liste_token, t_data *new)
 void add_back_fronts(t_data **liste_data, t_data *new)
 {
     t_data *current;
+    new->next = NULL;
+	new->prev = NULL;
 
     if (*liste_data == NULL)
-	{
     	*liste_data = new;
-		(*liste_data)->next = NULL;
-	}
     else
     {
         current = *liste_data;
         while (current->next != NULL)
-        	current = current->next;
+            current = current->next;
         current->next = new;
-        new->prev = current;
+		new->prev = current;
     }
 }

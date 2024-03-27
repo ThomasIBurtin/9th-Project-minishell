@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tburtin <tburtin@student.42.fr>            +#+  +:+       +#+        */
+/*   By: transfo <transfo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 19:31:57 by transfo           #+#    #+#             */
-/*   Updated: 2024/03/26 16:41:19 by tburtin          ###   ########.fr       */
+/*   Updated: 2024/03/27 17:30:23 by transfo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,8 @@ typedef struct s_data
     char **outfile_append;
     char **infile;
     char **here_doc;
+
+    int commande_correct;
     struct s_data *prev;
     struct s_data *next; 
 }                   t_data;
@@ -115,7 +117,7 @@ void add_data(t_data **liste_data, t_token *liste_token);
     t_data *ft_newcmd(t_token *liste_token);
     void add_back_fronts(t_data **liste_data, t_data *new);
     void allocation_tab(t_len len, t_data *new);
-    void input_all_tab(t_token *liste_token, t_data *new);
+    void input_all_tab(t_token *liste_token, t_data *new, int flag2);
     void len_all_tab(t_token *liste_token, t_len *len, int position);
         // utils_data
         void algo_outfile(t_token *liste_token, t_data *new);
@@ -135,7 +137,7 @@ char **replace_commande(char **cmd_arg, int index);
     void replace_var(int index, char *var, t_list **list);
 
 // chek_ligne
-int chek_ligne(t_token *liste_token, t_data *liste_data, char **envp);
+int chek_ligne(t_token *liste_token, t_data **liste_data, char **envp);
     // utils_chek
     int chek_infile(char *infile);
     int chek_outfile(t_token *liste_token);

@@ -6,7 +6,7 @@
 /*   By: transfo <transfo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 19:11:10 by tburtin           #+#    #+#             */
-/*   Updated: 2024/03/25 19:56:29 by transfo          ###   ########.fr       */
+/*   Updated: 2024/03/27 15:29:11 by transfo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void algo_infile(t_data *new, int position, char *last_outfile)
 		if(ft_compare(last_outfile, "fd[1]") == 1)
 			new->infile[0] = ft_strdup("fd[0]");
 		else
-			new->infile[0] = ft_strdup(last_outfile);
+			new->infile[0] = ft_strdup("empty");
 	}
 }
 
