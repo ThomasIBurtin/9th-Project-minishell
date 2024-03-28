@@ -6,7 +6,7 @@
 /*   By: transfo <transfo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 10:55:53 by tburtin           #+#    #+#             */
-/*   Updated: 2024/03/27 22:14:35 by transfo          ###   ########.fr       */
+/*   Updated: 2024/03/28 10:56:27 by transfo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,16 @@ t_data *ft_newcmd(t_token *liste_token)
 	char static  *last_outfile = NULL;
 	t_len len;
 
-	len_all_tab(liste_token, &len, position);
+	init_compteurs(&len);
+	len_all_tab(liste_token, &len);
+	bonus_len(&len, position);
 	allocation_tab(len, new);
+	
 	if(len.flag1 == 1 )
 		algo_outfile(liste_token, new);
 	if(len.flag2 == 1)
 		algo_infile(new, position, last_outfile);
+		
 	input_all_tab(liste_token, new, len.flag2);
 	last_outfile = find_last_outfile(new->outfile);
 	check_position(liste_token, &position);
@@ -35,10 +39,8 @@ t_data *ft_newcmd(t_token *liste_token)
 }
 
 
-void len_all_tab(t_token *liste_token, t_len *len, int position)
+void len_all_tab(t_token *liste_token, t_len *len)
 {
-	init_compteurs(len);
-
 	while(liste_token && liste_token->type != pip)
 	{
 		if(liste_token->type == commande || liste_token->type == argument)
@@ -58,16 +60,6 @@ void len_all_tab(t_token *liste_token, t_len *len, int position)
 			len->compteur_heredoc++;
 		}
 		liste_token = liste_token->next;
-	}
-	if(len->compteur_outfile == 0)
-	{
-		len->compteur_outfile++;
-		len->flag1 = 1;
-	}
-	if((position == 0 && len->compteur_infile == 0) || (position != 0))
-	{
-		len->compteur_infile++;
-		len->flag2 = 1;
 	}
 }
 
@@ -90,12 +82,11 @@ void allocation_tab(t_len len, t_data *new)
 
 void input_all_tab(t_token *liste_token, t_data *new, int flag2)
 {
-	t_len len;		
+	t_len len;
+		
 	init_compteurs(&len);
-
 	if(flag2 == 1)
 		len.compteur_infile++;
-
 	while(liste_token && liste_token->type != pip)
 	{	
 		if(liste_token->type == commande || liste_token->type == argument)
@@ -123,7 +114,6 @@ void add_back_fronts(t_data **liste_data, t_data *new)
 {
     t_data *current;
     new->next = NULL;
-	new->prev = NULL;
 
     if (*liste_data == NULL)
     	*liste_data = new;
@@ -133,6 +123,5 @@ void add_back_fronts(t_data **liste_data, t_data *new)
         while (current->next != NULL)
             current = current->next;
         current->next = new;
-		new->prev = current;
     }
 }

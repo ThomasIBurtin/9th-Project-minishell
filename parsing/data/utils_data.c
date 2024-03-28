@@ -6,11 +6,25 @@
 /*   By: transfo <transfo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/29 19:11:10 by tburtin           #+#    #+#             */
-/*   Updated: 2024/03/27 21:22:58 by transfo          ###   ########.fr       */
+/*   Updated: 2024/03/28 10:54:54 by transfo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
+
+void bonus_len(t_len *len, int position)
+{
+	if(len->compteur_outfile == 0)
+	{
+		len->compteur_outfile++;
+		len->flag1 = 1;
+	}
+	if((position == 0 && len->compteur_infile == 0) || (position != 0))
+	{
+		len->compteur_infile++;
+		len->flag2 = 1;
+	}
+}
 
 
 void algo_outfile(t_token *liste_token, t_data *new)

@@ -6,7 +6,7 @@
 /*   By: transfo <transfo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 13:38:55 by tburtin           #+#    #+#             */
-/*   Updated: 2024/03/27 21:23:26 by transfo          ###   ########.fr       */
+/*   Updated: 2024/03/28 11:49:13 by transfo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int chek_ligne(t_token *liste_token, t_data **liste_data, char **envp)
 	
 	while(current_data)
 	{
-		while(liste_token)
+		while(liste_token && liste_token->type != pip)
 		{
 			if(liste_token->type == infile)
 			{
@@ -33,6 +33,8 @@ int chek_ligne(t_token *liste_token, t_data **liste_data, char **envp)
 			}
 			liste_token = liste_token->next;
 		}
+		if(liste_token != NULL)
+			liste_token = liste_token->next;
 		if(chek_command(current_data->cmd_arg, envp) == 0)
 			current_data->commande_correct = 1;
 		current_data = current_data->next;
@@ -52,11 +54,10 @@ void delete_wrong_data(t_data **liste_data)
 	{
 		if(current_data->commande_correct == 1)
 		{
-			if(current_data->next != NULL)
-				(*liste_data)->prev = NULL;
 			temp = current_data;
 			free_onedata(temp);
 			*liste_data = current_data->next;
+			modife_infile(current_data);
 		}
 		else if(current_data->commande_correct == 0 && current_data->next != NULL && current_data->next->commande_correct == 1)
 		{
@@ -64,7 +65,6 @@ void delete_wrong_data(t_data **liste_data)
 			temp = current_data->next;
 			if (temp->next != NULL) 
 			{
-				(*liste_data)->prev = NULL;
 				free_onedata(temp);
 				current_data = current_data->next;
 			}
@@ -72,5 +72,19 @@ void delete_wrong_data(t_data **liste_data)
 			*liste_data = current_data->next;
 		}
 		current_data = current_data->next;
+	}
+}
+
+
+void modife_infile(t_data *current_data)
+{
+	if(current_data->next && current_data->next->commande_correct == 0)
+	{
+		current_data = current_data->next;
+		if(ft_compare(current_data->infile[0], "fd[0]") == 1)
+		{
+			free(current_data->infile[0]);
+			current_data->infile[0] = ft_strdup("empty");
+		}
 	}
 }

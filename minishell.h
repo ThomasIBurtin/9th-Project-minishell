@@ -6,7 +6,7 @@
 /*   By: transfo <transfo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/31 19:31:57 by transfo           #+#    #+#             */
-/*   Updated: 2024/03/27 21:19:25 by transfo          ###   ########.fr       */
+/*   Updated: 2024/03/28 11:49:23 by transfo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,6 @@ typedef struct s_data
     char **here_doc;
 
     int commande_correct;
-    struct s_data *prev;
     struct s_data *next; 
 }                   t_data;
 
@@ -119,14 +118,16 @@ void add_data(t_data **liste_data, t_token *liste_token);
     void add_back_fronts(t_data **liste_data, t_data *new);
     void allocation_tab(t_len len, t_data *new);
     void input_all_tab(t_token *liste_token, t_data *new, int flag2);
-    void len_all_tab(t_token *liste_token, t_len *len, int position);
+    void len_all_tab(t_token *liste_token, t_len *len);
         // utils_data
+        void bonus_len(t_len *len, int position);
         void algo_outfile(t_token *liste_token, t_data *new);
         void algo_infile(t_data *new, int position, char *last_outfile);
         char *find_last_outfile(char **tab);
         int remplir_data(char *str, char **tab, int compteur);
         void check_position(t_token *liste_token, int *position);
         void init_compteurs(t_len *len);
+        
 
 // variable
 int variable(t_programme *programme);
@@ -140,6 +141,7 @@ char **replace_commande(char **cmd_arg, int index);
 // chek_ligne
 int chek_ligne(t_token *liste_token, t_data **liste_data, char **envp);
 void delete_wrong_data(t_data **liste_data);
+void modife_infile(t_data *current_data);
     // utils_chek
     int chek_infile(char *infile);
     int chek_outfile(t_token *liste_token);
